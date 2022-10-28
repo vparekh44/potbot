@@ -1,8 +1,20 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import Head from 'next/head';
+import Image from 'next/image';
+import { useEffect } from 'react';
+import { supabase } from '../lib/supabaseClient';
+import styles from '../styles/Home.module.css';
 
 export default function Home() {
+
+  const getUsers = async () => {
+    const users = await supabase.from("users").select(`*`);
+    console.log("get users", users);
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -67,5 +79,5 @@ export default function Home() {
         </a>
       </footer>
     </div>
-  )
+  );
 }
