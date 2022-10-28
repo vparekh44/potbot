@@ -1,10 +1,11 @@
 import { useRouter } from "next/router";
+import { ReactNode } from "react";
 import { FiSettings, FiLogIn } from "react-icons/fi";
 import { GiTeapot } from "react-icons/gi";
 import { GoPerson } from "react-icons/go";
 
 interface LayoutProps {
-  children: JSX.Element;
+  children: ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps) => {

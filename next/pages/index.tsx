@@ -1,7 +1,9 @@
 import { useTheme } from "next-themes";
+import { useAccount, Web3Button } from "@web3modal/react";
 
 export default function Home() {
   const { theme, setTheme } = useTheme();
+  const { account } = useAccount();
 
   return (
     <div className="flex items-center justify-center h-screen flex-col gap-4">
@@ -18,6 +20,7 @@ export default function Home() {
       >
         Light Mode
       </button>
+      <Web3Button />
     </div>
   );
 }
