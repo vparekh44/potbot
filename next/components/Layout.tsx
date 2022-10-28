@@ -1,4 +1,4 @@
-import { useAccount, Web3Button } from "@web3modal/react";
+import { Web3Button } from "@web3modal/react";
 import classNames from "classnames";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
@@ -25,25 +25,15 @@ const Layout = ({ children }: LayoutProps) => {
 const RightSide = () => {
   const { theme, setTheme } = useTheme();
 
+  const toggleTheme = () => {
+    theme !== "dark" ? setTheme("dark") : setTheme("light");
+  };
   return (
     <div className="fixed right-3 top-5 flex gap-3">
       <Web3Button />
-      {/* {theme !== "dark" && (
-        <div
-          className="cursor-pointer my-auto"
-          onClick={() => setTheme("dark")}
-        >
-          <TbMoon size={24} />
-        </div>
-      )} */}
-      {theme !== "light" && (
-        <div
-          className="cursor-pointer my-auto"
-          onClick={() => setTheme("light")}
-        >
-          <TbSun size={24} />
-        </div>
-      )}
+      <div className="cursor-pointer my-auto" onClick={toggleTheme}>
+        {theme !== "dark" ? <TbMoon size={24} /> : <TbSun size={24} />}
+      </div>
     </div>
   );
 };
@@ -56,7 +46,7 @@ const Menu = () => {
     <div className="btm-nav w-full lg:w-1/2 mx-auto">
       <button
         onClick={() => router.push("/profile")}
-        disabled={!user}
+        // disabled={!user}
         className={classNames({ active: router.asPath === "profile" })}
       >
         <GoPerson />
