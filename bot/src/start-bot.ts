@@ -1,5 +1,5 @@
 import { REST } from '@discordjs/rest';
-import { Options, Partials } from 'discord.js';
+import { Events, Options, Partials } from 'discord.js';
 import { createRequire } from 'node:module';
 
 import { Button } from './buttons/index.js';
@@ -24,6 +24,7 @@ import {
 import { CustomClient } from './extensions/index.js';
 import { Job } from './jobs/index.js';
 import { Bot } from './models/bot.js';
+import { listen } from './reaction-listener.js';
 import { Reaction } from './reactions/index.js';
 import {
     CommandRegistrationService,
@@ -51,6 +52,10 @@ async function start(): Promise<void> {
             // Override specific options from config
             ...Config.client.caches,
         }),
+    });
+
+    client.on(Events.MessageReactionAdd, async (reaction, user) => {
+        listen(reaction, user);
     });
 
     // Commands
