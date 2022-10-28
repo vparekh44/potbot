@@ -8,6 +8,10 @@ export default function Home() {
 
 
   return (
+    <div className='flex items-center justify-center h-screen flex-col gap-4'>
    <h1 className='text-slate-900 text-5xl'>HELLO FROM TAILWIND</h1>
+   <button className="btn btn-active btn-primary">Hello from daisyUi</button>
+   </div>
+
   );
 }
