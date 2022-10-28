@@ -1,8 +1,8 @@
-import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import next, { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import jwt, { Jwt } from "jsonwebtoken";
 
 export default function withJwtAuth(handler: NextApiHandler) {
-  return async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+  return async (req: NextApiRequest, res: NextApiResponse) => {
     const { headers } = req;
     let accessToken = headers.authorization;
 
