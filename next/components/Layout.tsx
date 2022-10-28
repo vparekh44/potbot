@@ -51,9 +51,6 @@ const Menu = () => {
   const router = useRouter();
   const user = null; // TODO: change this to when we have the auth login done.
 
-  const goTo = () => {
-    router.push("/");
-  };
   return (
     <>
       <div className="btm-nav w-full lg:w-1/2 mx-auto">
