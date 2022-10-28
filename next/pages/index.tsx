@@ -3,9 +3,9 @@ import Image from "next/image";
 export default function Home() {
   return (
     <div className="flex items-center justify-center h-screen flex-col gap-4">
-      <div className="relative h-96 w-96">
+      <div className="relative h-48 w-96">
         <Image
-          src="https://cps-static.rovicorp.com/2/Open/20th%20Century%20Fox/Missing%20in%20Action/_derived_jpg_q90_310x470_m0/MIA%20poster.jpg"
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTl7gkXh9lKNdrIlYUdEVXkRsJp4LUR4frL0A&usqp=CAU"
           alt="current status of Joni"
           fill={true}
           unoptimized={true}
