@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes";
 import Layout from "../components/Layout";
 import { Web3Modal } from "@web3modal/react";
 import { chains, providers } from "@web3modal/ethereum";
+import { useState, useEffect } from "react";
 
 if (!process.env.NEXT_PUBLIC_PROJECT_ID)
   throw new Error("You need to provide NEXT_PUBLIC_PROJECT_ID env variable");
@@ -25,6 +26,16 @@ const config = {
 };
 
 export default function App({ Component, pageProps }: AppProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <ThemeProvider>
       <Layout>
