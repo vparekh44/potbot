@@ -159,7 +159,7 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
 
   useEffect(() => {
     if (nonce && !user ) {
-      toast.loading("Please sign the nonce...");
+      // toast.loading("Please sign the nonce...");
       signMessage();
     }
   }, [nonce, user]);
