@@ -114,6 +114,7 @@ const TopAppreciators = ({ user_id }: TopAppreciatorsProps) => {
     setLoading(true);
     try {
       const { data, error } = await getTopGiversToUser(user_id);
+      debugger;
       if (!error && data) {
         setTopGivers(data);
       }
