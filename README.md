@@ -1,4 +1,4 @@
-# PotBot
+# PotBot 
 
 PotBot captures reactions across discord servers and aggregates
 them into reputation points. Users can then mint tokens related to their reputation, quantifying and offering insights about interaction within the communities.
