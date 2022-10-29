@@ -6,6 +6,7 @@ import { useLogout } from "../../contexts/AuthContext";
 import { useCallback, useEffect, useState } from "react";
 import SkeletonCard from "../../components/SkeletonCard";
 import classNames from "classnames";
+import Discord from "../../components/Discord";
 
 type PageParams = {
   walletAddress: string;
@@ -83,6 +84,7 @@ const UserPage = ({ id, walletAddress }: ProfileProps) => {
           </div>
         </div>
       </>
+      <Discord />
     </div>
   );
 };
