@@ -115,7 +115,25 @@ export interface Database {
       };
     };
     Views: {
-      [_ in never]: never;
+      leaderboard: {
+        Row: {
+          count: number | null;
+          receiver_id: string | null;
+          wallet_address: string | null;
+        };
+      };
+      server_stats: {
+        Row: {
+          wallet_address: string | null;
+          server_id: string | null;
+          count: number | null;
+        };
+      };
+      unique_guilds: {
+        Row: {
+          server_id: string | null;
+        };
+      };
     };
     Functions: {
       select_unique_guild_ids: {
@@ -123,7 +141,7 @@ export interface Database {
         Returns: string;
       };
       top_count_givers: {
-        Args: { user_id: string };
+        Args: { target_id: string };
         Returns: Record<string, unknown>[];
       };
       top_emoji_received: {

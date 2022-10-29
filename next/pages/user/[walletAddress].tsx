@@ -29,6 +29,11 @@ const UserPage = ({ id, walletAddress }: ProfileProps) => {
   const logout = useLogout();
   const user = useUserData();
 
+  const getUserReputation = useCallback(async () => {}, []);
+
+  useEffect(() => {
+    getUserReputation();
+  }, [getUserReputation]);
   return (
     <div className="h-full w-full">
       <>
