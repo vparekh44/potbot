@@ -49,9 +49,10 @@ export default function Home({
               <p className="text-5xl sm:text-8xl">🪴</p>
             </div>
             <p className="py-6 max-w-md text-center sm:text-start">
-              Store proofs of everyday communication on-chain – quantifying and
-              offering insights about day-to-day work and interaction within
-              communities.
+              PotBot captures reactions across discord servers and aggregates
+              them into reputation points. Users can then mint tokens related to
+              their reputation, quantifying and offering insights about
+              interaction within the communities.
             </p>
             <div className="stats shadow hidden sm:flex">
               <div className="stat">
