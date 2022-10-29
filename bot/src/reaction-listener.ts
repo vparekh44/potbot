@@ -1,5 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
-import { MessageReaction, PartialMessageReaction, PartialUser, User, Channel } from 'discord.js';
+import { MessageReaction, PartialMessageReaction, PartialUser, User } from 'discord.js';
 import { v4 as uuidv4 } from 'uuid';
 
 interface Reaction {
@@ -21,11 +20,6 @@ export const insertReactionToDb = async ({
     createdAt,
     supabase,
 }: Reaction): Promise<void> => {
-    // const supabase = createClient(
-    //     'https://royjlygoakdbzebykdws.supabase.co',
-    //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJveWpseWdvYWtkYnplYnlrZHdzIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY2Njk2OTc2NywiZXhwIjoxOTgyNTQ1NzY3fQ.9igCyaGm6y6K9xL5Oxy7VTu2vU8VJ4R_AUfxk4EccRM'
-    // );
-
     try {
         const { data, error } = await supabase.from('reactions').insert({
             id: uuidv4(),
