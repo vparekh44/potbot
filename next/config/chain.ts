@@ -35,6 +35,8 @@ interface ChainInfo {
 }
 
 export type ChainInfoMap = { readonly [chainId: number]: ChainInfo };
+
+// TODO: fix mumbai stuff tomorrow
 export const CHAIN_INFO: ChainInfoMap = {
   [chain.polygonMumbai.id]: {
     gnosisTxServiceUrl: "https://safe-transaction.rinkeby.gnosis.io",

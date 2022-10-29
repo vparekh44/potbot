@@ -1,4 +1,3 @@
-import { useProvider, useSigner, useContract } from "@web3modal/react";
 import { Contract, ethers } from "ethers";
 import { Chain, chain } from "wagmi";
 import { CHAIN_INFO, ContractName, ContractAbi } from "../config/chain";
