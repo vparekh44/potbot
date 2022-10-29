@@ -124,7 +124,8 @@ export default function Home({
           );
         })}
       </div>
-      <h2 className="text-4xl py-10 text-center font-extrabold">Usage Stats</h2>
+      <h2 className="text-4xl pt-10 text-center font-extrabold">Usage Stats</h2>
+      <p className="stat-desc pb-10 text-center">Various discord servers statistics</p>
       <div className="grid grid-cols-1 pb-20 sm:grid-cols-3">
         {discordServerData.map((item) => {
           return (
