@@ -12,3 +12,8 @@ export type Reaction = ReactionsResponse["Row"];
 
 export type UsersResponse = Database["public"]["Tables"]["users"];
 export type User = UsersResponse["Row"];
+
+/* VIEW RPC */
+
+export const TOP_EMOJIS_VIEW = "top_emoji_received" as const;
+export const TOP_GIVERS_TO_USER_VIEW = "top_count_givers" as const;

@@ -13,7 +13,7 @@ const Emoji = ({ label, symbol, size = "md", className }: EmojiProps) => (
       "emoji",
       { "h-6 w-6": (size = "sm") },
       { "h-8 w-8": (size = "md") },
-      { "h-10 w-10": (size = "md") },
+      { "h-10 w-10": (size = "lg") },
       className
     )}
     role="img"
