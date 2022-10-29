@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import SkeletonCard from "../../components/SkeletonCard";
 import classNames from "classnames";
 import { getTopEmojisOnUser } from "../../services/profileService";
+import Discord from "../../components/Discord";
 
 type PageParams = {
   walletAddress: string;
@@ -64,6 +65,7 @@ const UserPage = ({ id, walletAddress }: ProfileProps) => {
           </div>
         </div>
       </>
+      <Discord />
     </div>
   );
 };

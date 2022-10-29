@@ -17,14 +17,14 @@ type HomePageProps = {
 export default function Home({
   discordServerData,
   totalReactionsCount,
-  totalUsersCount
+  totalUsersCount,
 }: HomePageProps) {
   return (
     <div className="flex flex-col gap-3">
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row">
           <div className="flex flex-col gap-6">
-            <div className="flex justify-around gap-6 items-center">
+            <div className="flex justify-between gap-6 items-center">
               <h1 className="text-5xl font-bold">Proof-Of-Talent Bot!</h1>
               <span className="text-9xl">🪴</span>
             </div>
@@ -33,41 +33,58 @@ export default function Home({
               excepturi exercitationem quasi. In deleniti eaque aut repudiandae
               et a id nisi.
             </p>
-            <div className="stats shadow">
+            <div className="stats shadow hidden sm:flex">
               <div className="stat">
-              <div className="stat-figure text-4xl text-secondary">
-                 🎯
-                </div>
+                <div className="stat-figure text-4xl text-secondary">🎯</div>
                 <div className="stat-title">Amount of Servers</div>
                 <div className="stat-value">{discordServerData.length}</div>
-                <div className="stat-desc">Installations of Potbot</div>
-
+                <div className="stat-desc">Where reactions were captures</div>
               </div>
 
               <div className="stat">
-                <div className="stat-figure text-4xl text-secondary">
-                👥
-                </div>
+                <div className="stat-figure text-4xl text-secondary">👥</div>
                 <div className="stat-title">Users</div>
                 <div className="stat-value">{totalUsersCount}</div>
-                <div className="stat-desc">Users who linked their wallets</div>
+                <div className="stat-desc">Who linked their wallets</div>
               </div>
 
               <div className="stat">
-              <div className="stat-figure text-4xl text-secondary">
-                 🤪
-                </div>
+                <div className="stat-figure text-4xl text-secondary">🤪</div>
                 <div className="stat-title">Reactions captured</div>
                 <div className="stat-value">{totalReactionsCount}</div>
-                <div className="stat-desc">Reactions across servers</div>
+                <div className="stat-desc">Across all servers</div>
               </div>
             </div>
-            <div className="flex flex-row-reverse">
+            <div className="flex justify-center sm:justify-end">
               <AddPotBotToServer />
             </div>
+            
           </div>
         </div>
+        
       </div>
+      <div className="stats shadow flex sm:hidden">
+              <div className="stat">
+                <div className="stat-figure text-4xl text-secondary">🎯</div>
+                <div className="stat-title">Amount of Servers</div>
+                <div className="stat-value">{discordServerData.length}</div>
+                <div className="stat-desc">Where reactions were captures</div>
+              </div>
+
+              <div className="stat">
+                <div className="stat-figure text-4xl text-secondary">👥</div>
+                <div className="stat-title">Users</div>
+                <div className="stat-value">{totalUsersCount}</div>
+                <div className="stat-desc">Who linked their wallets</div>
+              </div>
+
+              <div className="stat">
+                <div className="stat-figure text-4xl text-secondary">🤪</div>
+                <div className="stat-title">Reactions captured</div>
+                <div className="stat-value">{totalReactionsCount}</div>
+                <div className="stat-desc">Across all servers</div>
+              </div>
+            </div>
     </div>
   );
 }
@@ -90,14 +107,14 @@ export const getServerSideProps = async (): Promise<
   }
 
   const { error: totalUsersCountError, count: totalUsersCount } =
-  await supabaseService
-    .from("users")
-    .select("id", { count: "exact" })
-    .limit(1);
+    await supabaseService
+      .from("users")
+      .select("id", { count: "exact" })
+      .limit(1);
 
-if (totalUsersCountError) {
-  throw new Error(totalUsersCountError.message);
-}
+  if (totalUsersCountError) {
+    throw new Error(totalUsersCountError.message);
+  }
 
   const { data: discordIdData, error: discordIdDataError } =
     await supabaseService.rpc("select_unique_guild_ids");
@@ -137,7 +154,11 @@ if (totalUsersCountError) {
     };
   } else {
     return {
-      props: { discordServerData: [], totalReactionsCount: 0, totalUsersCount: 0 },
+      props: {
+        discordServerData: [],
+        totalReactionsCount: 0,
+        totalUsersCount: 0,
+      },
     };
   }
 };

@@ -8,7 +8,7 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <main className="max-w-screen-xl mx-auto">
+    <main className="max-w-screen-xl pb-16 sm:pb-0 mx-auto">
       <TopNavigation />
       {children}
       <BottomNavigation />
