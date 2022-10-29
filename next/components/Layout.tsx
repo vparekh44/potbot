@@ -15,7 +15,7 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <>
-      <div>{children}</div>
+      <div className="px-6 pt-20">{children}</div>
       <RightSide />
       <Menu />
     </>
