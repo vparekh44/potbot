@@ -15,6 +15,7 @@ import {
 import Discord from "../../components/Discord";
 import Link from "next/link";
 import { truncateEthAddress } from "../../lib/utils";
+import { getNFTsFromWallet } from "../../services/alchemyService";
 
 type PageParams = {
   walletAddress: string;
@@ -31,16 +32,21 @@ const UserPage = ({ id, walletAddress }: ProfileProps) => {
 
   const getUserReputation = useCallback(async () => {}, []);
 
+  const getNftsFromProfile = useCallback(async () => {
+    await getNFTsFromWallet(walletAddress);
+  }, [walletAddress]);
+
   useEffect(() => {
-    getUserReputation();
-  }, [getUserReputation]);
+    Promise.all([getUserReputation(), getNftsFromProfile()]);
+  }, [getUserReputation, getNftsFromProfile]);
+
   return (
     <div className="h-full w-full">
       <>
         <div className="flex justify-center mt-10">
           <div className="avatar basis-1/4 flex flex-col">
             <div className="mx-auto mb-5">
-              <div className="w-24 relative h-24">
+              <div className="w-40 relative h-40">
                 <Image
                   src="https://placeimg.com/192/192/people"
                   alt="placeholder"
@@ -48,6 +54,9 @@ const UserPage = ({ id, walletAddress }: ProfileProps) => {
                   fill={true}
                   unoptimized={true}
                 />
+              </div>
+              <div className="flex justify-center">
+                {truncateEthAddress(walletAddress)}
               </div>
             </div>
             <div className="flex mx-auto">
@@ -208,7 +217,7 @@ const TopGiverCard = ({ wallet, name, image, count }: TopGiverCardProps) => {
       {!wallet && (
         <>
           <div className="flex border border-neutral p-3">
-            <div className="avatar max-w-[40px] max-h-[40px]">
+            <div className="avatar max-w-[200px] max-h-[200px]">
               <Image
                 src={
                   image
