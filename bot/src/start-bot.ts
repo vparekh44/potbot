@@ -1,4 +1,5 @@
 import { REST } from '@discordjs/rest';
+import { createClient } from '@supabase/supabase-js';
 import { Events, Options, Partials } from 'discord.js';
 import { createRequire } from 'node:module';
 
@@ -42,6 +43,9 @@ async function start(): Promise<void> {
     // Services
     let eventDataService = new EventDataService();
 
+    // Supabase
+    const supabase = createClient(Config.supabase.url, Config.supabase.key);
+
     // Client
     let client = new CustomClient({
         intents: Config.client.intents,
@@ -55,7 +59,7 @@ async function start(): Promise<void> {
     });
 
     client.on(Events.MessageReactionAdd, async (reaction, user) => {
-        listen(reaction, user);
+        listen(reaction, user, supabase);
     });
 
     // Commands
