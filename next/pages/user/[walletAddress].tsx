@@ -27,10 +27,15 @@ type ProfileProps = {
 
 const UserPage = ({ id, walletAddress }: ProfileProps) => {
   const [nftImage, setNftImage] = useState<string>("");
+  const [userScore, setUserScore] = useState<number>(0);
   const logout = useLogout();
   const user = useUserData();
 
   const getUserReputation = useCallback(async () => {}, []);
+
+  const mintUserReputation = async () => {};
+
+  const giveThumbsToTheUser = (value: "up" | "down") => {};
 
   const getNftsFromProfile = useCallback(async () => {
     const nftImage = await getRandomNFTFromAWallet(walletAddress);
@@ -44,34 +49,64 @@ const UserPage = ({ id, walletAddress }: ProfileProps) => {
   return (
     <div className="h-full w-full">
       <>
-        <div className="flex justify-center mt-10">
-          <div className="avatar basis-1/4 flex flex-col">
-            <div className="mx-auto mb-5">
-              {nftImage ? (
-                <div className="w-40 relative h-40">
-                  <Image
-                    src={nftImage}
-                    alt="placeholder"
-                    className="rounded-full"
-                    fill={true}
-                    unoptimized={true}
-                  />
-                </div>
-              ) : (
-                <div className="bg-gradient-to-r from-cyan-500 to-blue-500 w-40 h-40 rounded-full"></div>
-              )}
+        <div className="mx-auto mt-10">
+          <div>
+            <div className="avatar basis-1/4 flex flex-col">
+              <div className="mx-auto mb-5">
+                {nftImage ? (
+                  <div className="w-40 relative h-40">
+                    <Image
+                      src={nftImage}
+                      alt="placeholder"
+                      className="rounded-full"
+                      fill={true}
+                      unoptimized={true}
+                    />
+                  </div>
+                ) : (
+                  <div className="bg-gradient-to-r from-cyan-500 to-blue-500 w-40 h-40 rounded-full"></div>
+                )}
+              </div>
             </div>
-            <div className="flex mx-auto mt-3">
+            {/* <div className="flex justify-center gap-5 mb-5">
+              <div>
+                <button
+                  className="text-5xl"
+                  disabled={!user}
+                  onClick={() => giveThumbsToTheUser("up")}
+                >
+                  👍
+                </button>
+              </div>
+              <div>
+                <button
+                  className="text-5xl"
+                  disabled={!user}
+                  onClick={() => giveThumbsToTheUser("down")}
+                >
+                  👎
+                </button>
+              </div>
+            </div> */}
+            <div className="flex flex-col justify-center mx-auto mt-3">
               <p className="flex justify-center text-white text-lg">
                 {truncateEthAddress(walletAddress)}
               </p>
-              <h5 className="my-auto font-black text-base">
+              <h5 className="flex justify-center my-auto font-black text-base">
                 Current Reputation:
               </h5>
               {/* TODO */}
               <h6 className="mx-auto text-5xl font-black text-white text-center mt-5">
-                3
+                {userScore}
               </h6>
+              <div className="flex justify-center mt-5">
+                <button
+                  className="p-2 bg-secondary w-44 rounded-full text-white"
+                  onClick={() => mintUserReputation()}
+                >
+                  Mint Your Current Reputation
+                </button>
+              </div>
             </div>
           </div>
         </div>

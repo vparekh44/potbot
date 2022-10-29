@@ -1,11 +1,11 @@
 import { ethers, BigNumberish } from "ethers";
 import { NextApiRequest, NextApiResponse } from "next";
 import { chain } from "wagmi";
-import { CHAIN_INFO } from "../../../config/chain";
 import withJwtAuth from "../../../middleware/withJwtAuth";
 import jwt from "jsonwebtoken";
 import { SignatureGroupProperties } from "../../../config/score.types";
 import { generateProofData } from "../../../utils/common";
+import { CHAIN_INFO } from "../../../config/chain";
 
 async function attest(req: NextApiRequest, res: NextApiResponse) {
   return new Promise<void>(async () => {
@@ -56,13 +56,13 @@ const getChainInfo = () => {
   if (process.env.NEXT_PUBLIC_BADGES_MAINNET_MODE === "true") {
     walletSecretKey = process.env.POT_POLYGON_MAINNET_WALLET_SECRET_KEY;
     signatureAttesterContract =
-      CHAIN_INFO[chain.polygon.id].contracts?.SignatureAttester?.address;
+      CHAIN_INFO[chain.polygon.id].contracts?.signatureVerifier?.address;
     rpcUrl = CHAIN_INFO[chain.polygon.id].rpcUrl[0];
     chainId = chain.polygon.id;
   } else {
     walletSecretKey = process.env.RINKEBY_WALLET_SECRET_KEY;
     signatureAttesterContract =
-      CHAIN_INFO[chain.goerli.id].contracts?.SignatureAttester?.address;
+      CHAIN_INFO[chain.goerli.id].contracts?.signatureVerifier?.address;
     rpcUrl = CHAIN_INFO[chain.goerli.id].rpcUrl[0];
     chainId = chain.goerli.id;
   }

@@ -9,17 +9,17 @@ export default function useAttestationRegistry(
   const provider = useProvider({ chainId });
   const { data: signer } = useSigner();
   const address =
-    CHAIN_INFO[chainId].contracts[ContractName.LensVerifier]?.address;
+    CHAIN_INFO[chainId].contracts[ContractName.lensVerifier]?.address;
 
   const contractWrite = useContract({
     address: address || ethers.constants.AddressZero,
-    abi: getContractAbi(ContractName.LensVerifier),
+    abi: getContractAbi(ContractName.lensVerifier),
     signerOrProvider: signer,
   });
 
   const contractRead = useContract({
     address: address || ethers.constants.AddressZero,
-    abi: getContractAbi(ContractName.LensVerifier),
+    abi: getContractAbi(ContractName.lensVerifier),
     signerOrProvider: provider,
   });
 
