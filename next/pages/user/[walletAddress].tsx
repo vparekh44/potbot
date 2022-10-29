@@ -12,10 +12,9 @@ import {
   TopEmoji,
   TopGiver,
 } from "../../services/profileService";
-import Discord from "../../components/Discord";
 import Link from "next/link";
 import { truncateEthAddress } from "../../lib/utils";
-import { getNFTsFromWallet } from "../../services/alchemyService";
+import { getRandomNFTFromAWallet } from "../../services/alchemyService";
 
 type PageParams = {
   walletAddress: string;
@@ -27,13 +26,15 @@ type ProfileProps = {
 };
 
 const UserPage = ({ id, walletAddress }: ProfileProps) => {
+  const [nftImage, setNftImage] = useState<string>("");
   const logout = useLogout();
   const user = useUserData();
 
   const getUserReputation = useCallback(async () => {}, []);
 
   const getNftsFromProfile = useCallback(async () => {
-    await getNFTsFromWallet(walletAddress);
+    const nftImage = await getRandomNFTFromAWallet(walletAddress);
+    setNftImage(nftImage);
   }, [walletAddress]);
 
   useEffect(() => {
@@ -46,27 +47,35 @@ const UserPage = ({ id, walletAddress }: ProfileProps) => {
         <div className="flex justify-center mt-10">
           <div className="avatar basis-1/4 flex flex-col">
             <div className="mx-auto mb-5">
-              <div className="w-40 relative h-40">
-                <Image
-                  src="https://placeimg.com/192/192/people"
-                  alt="placeholder"
-                  className="rounded-full"
-                  fill={true}
-                  unoptimized={true}
-                />
-              </div>
-              <div className="flex justify-center">
-                {truncateEthAddress(walletAddress)}
-              </div>
+              {nftImage ? (
+                <div className="w-40 relative h-40">
+                  <Image
+                    src={nftImage}
+                    alt="placeholder"
+                    className="rounded-full"
+                    fill={true}
+                    unoptimized={true}
+                  />
+                </div>
+              ) : (
+                <div className="bg-gradient-to-r from-cyan-500 to-blue-500 w-40 h-40 rounded-full"></div>
+              )}
             </div>
-            <div className="flex mx-auto">
-              <h6 className="inline my-auto font-black text-lg">
-                Reputation: 3 🍯
+            <div className="flex mx-auto mt-3">
+              <p className="flex justify-center text-white text-lg">
+                {truncateEthAddress(walletAddress)}
+              </p>
+              <h5 className="my-auto font-black text-base">
+                Current Reputation:
+              </h5>
+              {/* TODO */}
+              <h6 className="mx-auto text-5xl font-black text-white text-center mt-5">
+                3
               </h6>
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-5 lg:flex-row mb-20">
+        <div className="flex flex-col gap-5 lg:flex-row mb-20 mt-5">
           <div className="w-full basis-1/2">
             <div className="text-2xl text-center mb-5 capitalize">
               The Reactionaries
@@ -175,13 +184,17 @@ const TopAppreciators = ({ user_id }: TopAppreciatorsProps) => {
       <div className="flex flex-col gap-5">
         {loading && (
           <>
-            {new Array(3).map((option, index) => {
-              return <SkeletonCard key={index} />;
+            {new Array(3).fill("1").map((option, index) => {
+              return (
+                <div className="h-10 w-full" key={index}>
+                  <SkeletonCard />
+                </div>
+              );
             })}
           </>
         )}
         {!loading && (
-          <div>
+          <>
             {(!topGivers || topGivers.length === 0) && (
               <div>No one reacted yet.</div>
             )}
@@ -196,7 +209,7 @@ const TopAppreciators = ({ user_id }: TopAppreciatorsProps) => {
                 />
               );
             })}
-          </div>
+          </>
         )}
       </div>
     </>
@@ -210,67 +223,64 @@ interface TopGiverCardProps {
   count: number;
 }
 
-const TopGiverCard = ({ wallet, name, image, count }: TopGiverCardProps) => {
-  const user = useUserData();
+const TopGiverCard = ({ wallet, count }: TopGiverCardProps) => {
   return (
     <>
-      {!wallet && (
-        <>
-          <div className="flex border border-neutral p-3">
-            <div className="avatar max-w-[200px] max-h-[200px]">
-              <Image
-                src={
-                  image
-                    ? image
-                    : "https://i.pinimg.com/564x/af/60/be/af60be8ab2017c8a0c102c5d67e98395--flower-gardening-organic-gardening.jpg"
-                }
-                alt="placeholder"
-                className="rounded-full"
-                height={40}
-                width={40}
-                unoptimized={true}
-              />
-            </div>
-            <div className="flex flex-col justify-center ml-3">
-              <p>Anonymous</p>
-            </div>
-
-            <div className="ml-auto my-auto">{count || ""}</div>
-          </div>
-        </>
-      )}
-      {wallet && user && user.walletAddress === wallet && (
-        <div className="flex border-neutral border p-3">
-          <p className="text-secondary">Doing some self appreciation! Nice!</p>
-          <div className="ml-auto">{count}</div>
-        </div>
-      )}
-      {wallet && user?.walletAddress !== wallet && (
+      {wallet ? (
         <Link href={`/user/${wallet}`}>
-          <div className="flex border border-neutral p-3">
-            <div className="avatar max-w-[40px] max-h-[40px]">
-              <Image
-                src={
-                  image
-                    ? image
-                    : "https://i.pinimg.com/564x/af/60/be/af60be8ab2017c8a0c102c5d67e98395--flower-gardening-organic-gardening.jpg"
-                }
-                alt="placeholder"
-                className="rounded-full"
-                height={40}
-                width={40}
-                unoptimized={true}
-              />
-            </div>
-            <div className="flex flex-col justify-center ml-3">
-              <p className="text-primary">{truncateEthAddress(wallet)}</p>
-            </div>
-
-            <div className="ml-auto my-auto">{count || ""}</div>
-          </div>
+          <GiverContent wallet={wallet} count={count} />
         </Link>
+      ) : (
+        <GiverContent wallet={wallet} count={count} />
       )}
     </>
+  );
+};
+
+const GiverContent = ({ wallet, count }: { wallet: string; count: number }) => {
+  const user = useUserData();
+  const [image, setImage] = useState<string>("");
+  const getRandomNFTFromWallet = useCallback(async () => {
+    if (wallet) {
+      const nftImage = await getRandomNFTFromAWallet(wallet);
+      setImage(nftImage);
+    }
+  }, [wallet]);
+
+  useEffect(() => {
+    Promise.all([getRandomNFTFromWallet()]);
+  }, [getRandomNFTFromWallet]);
+
+  return (
+    <div className="flex border border-primary p-3 rounded-md">
+      <div className="avatar max-w-[40px] max-h-[40px]">
+        {image ? (
+          <Image
+            src={
+              image
+                ? image
+                : "https://i.pinimg.com/564x/af/60/be/af60be8ab2017c8a0c102c5d67e98395--flower-gardening-organic-gardening.jpg"
+            }
+            alt="placeholder"
+            className="rounded-full"
+            height={40}
+            width={40}
+            unoptimized={true}
+          />
+        ) : (
+          <div className="bg-gradient-to-r from-cyan-500 to-blue-500 w-8 h-8 rounded-full"></div>
+        )}
+      </div>
+      <div className="flex flex-col justify-center ml-3">
+        {user?.walletAddress === wallet ? (
+          <p className="text-secondary">Doing some self appreciation! Nice!</p>
+        ) : (
+          <p className="text-primary">{truncateEthAddress(wallet)}</p>
+        )}
+      </div>
+
+      <div className="ml-auto my-auto">{count || ""}</div>
+    </div>
   );
 };
 

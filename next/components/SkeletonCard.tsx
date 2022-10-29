@@ -9,7 +9,7 @@ const SkeletonCard = ({ children, rounded = "md" }: SkeletonCardProps) => {
   return (
     <div
       className={classNames(
-        "mx-auto min-h-full min-w-full bg-secondary animate-pulse",
+        "mx-auto min-h-full min-w-full bg-neutral animate-pulse",
         {
           "rounded-sm": rounded == "sm",
           "rounded-md": rounded == "md",
