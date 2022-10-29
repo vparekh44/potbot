@@ -48,3 +48,31 @@ CREATE OR REPLACE FUNCTION public.top_count_givers (target_id uuid)
 	LEFT JOIN profiles ON profiles.user_id = discord_integrations.user_id
 	LEFT JOIN public.users AS pusers ON pusers.id = discord_integrations.user_id)
 $function$
+
+--- CREATE A VIEW FOR ALL THE SERVERS + COUNT ---
+
+SELECT
+    u.wallet_address,
+    server_count.server_id,
+    server_count.count
+FROM (
+    SELECT
+        server_id,
+        count(*) AS count,
+        t.receiver_id
+    FROM (
+        SELECT
+            receiver_id
+        FROM
+            reactions
+        UNION
+        SELECT
+            sender_id
+        FROM
+            reactions) AS t
+        INNER JOIN reactions ON reactions.receiver_id = t.receiver_id
+    GROUP BY
+        server_id,
+        t.receiver_id) AS server_count
+    INNER JOIN discord_integrations di ON di.discord_id = server_count.receiver_id
+    INNER JOIN public.users u ON u.id = di.user_id;
