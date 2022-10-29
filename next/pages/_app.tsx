@@ -48,7 +48,6 @@ export default function App({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
           <Web3Modal config={config} />
           <ToastContainer />
-
         </Layout>
       </AuthProvider>
     </ThemeProvider>
