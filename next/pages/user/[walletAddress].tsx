@@ -6,6 +6,7 @@ import { useLogout } from "../../contexts/AuthContext";
 import { useCallback, useEffect, useState } from "react";
 import SkeletonCard from "../../components/SkeletonCard";
 import classNames from "classnames";
+import { getTopEmojisOnUser } from "../../services/profileService";
 
 type PageParams = {
   walletAddress: string;
@@ -17,15 +18,6 @@ type ProfileProps = {
 };
 
 const mockAttestations = [{ date: "2022-01-03" }, { date: "2022-02-05" }];
-
-const emojiSummary = [
-  {
-    emoji: 0x1f609,
-    numberShown: 30,
-  },
-  { emoji: 0x1f609, numberShown: 15 },
-  { emoji: 0x1f609, numberShown: 10 },
-];
 
 const UserPage = ({ id, walletAddress }: ProfileProps) => {
   const logout = useLogout();
@@ -68,17 +60,6 @@ const UserPage = ({ id, walletAddress }: ProfileProps) => {
             <div className="text-2xl">Reactions:</div>
             <div className="my-5">
               <TopEmojisReceived user_id={id} />
-              {/* {emojiSummary.map((emojiInfo, index) => {
-                return (
-                  <div key={index} className="flex flex-row gap-5 mx-3 w-1/2">
-                    <Emoji
-                      label="test"
-                      symbol={String.fromCodePoint(emojiInfo.emoji)}
-                    ></Emoji>
-                    <div className="ml-auto">{emojiInfo.numberShown}</div>
-                  </div>
-                );
-              })} */}
             </div>
           </div>
         </div>
@@ -93,15 +74,20 @@ interface TopEmojisReceivedProps {
 
 const TopEmojisReceived = ({ user_id }: TopEmojisReceivedProps) => {
   const [loading, setLoading] = useState<boolean>(false);
-
+  const [topEmojis, setTopEmojis] = useState<any>([]);
   const getTopEmojisReceivedUser = useCallback(async () => {
     setLoading(true);
     try {
+      const { data, error } = await getTopEmojisOnUser(user_id);
+      debugger;
+      if (!error && data) {
+        setTopEmojis(data);
+      }
     } catch {
     } finally {
-      // setLoading(false);
+      setLoading(false);
     }
-  }, []);
+  }, [user_id]);
 
   useEffect(() => {
     getTopEmojisReceivedUser();
