@@ -8,41 +8,29 @@ export const BottomNavigation = () => {
   const user = useUserData();
 
   return (
-    <div className="btm-nav w-full">
+    <div className="btm-nav w-full sm:invisible">
       <button
         onClick={() => router.push("/settings")}
-        className={classNames({ active: router.asPath === "settings" })}
+        className={classNames({ "active": router.asPath === "" })}
       >
         <CgPoll className="h-6 w-6" />
       </button>
       <button
         onClick={() => router.push("/")}
-        className={classNames({ active: router.asPath === "leaderboard" })}
+        className={classNames({ "active": router.asPath === "/" })}
       >
         <CgHome className="h-6 w-6" />
       </button>
       <button
-        onClick={() => router.push("/settings")}
-        className={classNames({ active: router.asPath === "settings" })}
+        onClick={() => {}}
+        className={classNames({ "active": router.asPath === "" })}
       >
-        {user ? <CgProfile className="h-6 w-6" /> : <CgEnter className="h-6 w-6" />}
+        {user ? (
+          <CgProfile className="h-6 w-6" />
+        ) : (
+          <CgEnter className="h-6 w-6" />
+        )}
       </button>
     </div>
-    //   <div className="btm-nav w-full lg:w-1/2 mx-auto">
-    //     <button
-    //       onClick={() => router.push("/profile")}
-    //       // disabled={!user}
-    //       className={classNames({ active: router.asPath === "profile" })}
-    //     >
-    //       <GoPerson  />
-    //     </button>
-
-    //     <button
-    //       onClick={() => router.push("/settings")}
-    //       className={classNames({ active: router.asPath === "settings" })}
-    //     >
-    //       <FiSettings />
-    //     </button>
-    //   </div>
   );
 };
