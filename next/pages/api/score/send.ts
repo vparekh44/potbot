@@ -7,25 +7,6 @@ import jwt from "jsonwebtoken";
 import { SignatureGroupProperties } from "../../../config/score.types";
 import { generateProofData } from "../../../utils/common";
 
-let walletSecretKey;
-let signatureAttesterContract;
-let rpcUrl;
-let chainId;
-
-if (process.env.NEXT_PUBLIC_BADGES_MAINNET_MODE === "true") {
-  walletSecretKey = process.env.POT_POLYGON_MAINNET_WALLET_SECRET_KEY;
-  signatureAttesterContract =
-    CHAIN_INFO[chain.polygon.id].contracts?.SignatureAttester?.address;
-  rpcUrl = CHAIN_INFO[chain.polygon.id].rpcUrl[0];
-  chainId = chain.polygon.id;
-} else {
-  walletSecretKey = process.env.RINKEBY_WALLET_SECRET_KEY;
-  signatureAttesterContract =
-    CHAIN_INFO[chain.goerli.id].contracts?.SignatureAttester?.address;
-  rpcUrl = CHAIN_INFO[chain.goerli.id].rpcUrl[0];
-  chainId = chain.goerli.id;
-}
-
 async function attest(req: NextApiRequest, res: NextApiResponse) {
   return new Promise<void>(async () => {
     try {
@@ -38,6 +19,12 @@ async function attest(req: NextApiRequest, res: NextApiResponse) {
 
       const owner = payload?.user_metadata?.address;
       if (!owner) return res.status(403).json({ error: "Address not present" });
+
+      const { walletSecretKey, signatureAttesterContract, rpcUrl, chainId } =
+        getChainInfo();
+
+      if (!walletSecretKey || !signatureAttesterContract)
+        return res.status(404).json({ error: "Missing configuration" });
 
       const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
       const signer = new ethers.Wallet(walletSecretKey, provider);
@@ -59,6 +46,29 @@ async function attest(req: NextApiRequest, res: NextApiResponse) {
     }
   });
 }
+
+const getChainInfo = () => {
+  let walletSecretKey;
+  let signatureAttesterContract;
+  let rpcUrl;
+  let chainId;
+
+  if (process.env.NEXT_PUBLIC_BADGES_MAINNET_MODE === "true") {
+    walletSecretKey = process.env.POT_POLYGON_MAINNET_WALLET_SECRET_KEY;
+    signatureAttesterContract =
+      CHAIN_INFO[chain.polygon.id].contracts?.SignatureAttester?.address;
+    rpcUrl = CHAIN_INFO[chain.polygon.id].rpcUrl[0];
+    chainId = chain.polygon.id;
+  } else {
+    walletSecretKey = process.env.RINKEBY_WALLET_SECRET_KEY;
+    signatureAttesterContract =
+      CHAIN_INFO[chain.goerli.id].contracts?.SignatureAttester?.address;
+    rpcUrl = CHAIN_INFO[chain.goerli.id].rpcUrl[0];
+    chainId = chain.goerli.id;
+  }
+
+  return { walletSecretKey, signatureAttesterContract, rpcUrl, chainId };
+};
 
 const generateCredRequest = (
   groupId: BigNumberish,
