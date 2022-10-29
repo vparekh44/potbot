@@ -9,6 +9,8 @@ import classNames from "classnames";
 import {
   getTopEmojisOnUser,
   getTopGiversToUser,
+  TopEmoji,
+  TopGiver,
 } from "../../services/profileService";
 import Discord from "../../components/Discord";
 
@@ -72,14 +74,14 @@ interface TopEmojisReceivedProps {
 
 const TopEmojisReceived = ({ user_id }: TopEmojisReceivedProps) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [topEmojis, setTopEmojis] = useState<any>([]);
+  const [topEmojis, setTopEmojis] = useState<TopEmoji[]>([]);
 
   const getTopEmojisReceivedUser = useCallback(async () => {
     setLoading(true);
     try {
       const { data, error } = await getTopEmojisOnUser(user_id);
       if (!error && data) {
-        setTopEmojis(data);
+        setTopEmojis(data as TopEmoji[]);
       }
     } catch {
     } finally {
@@ -95,9 +97,24 @@ const TopEmojisReceived = ({ user_id }: TopEmojisReceivedProps) => {
   return (
     <>
       <div className="flex flex-row w-1/3">
-        <Podium place="2" emoji={topEmojis[1]} loading={loading} />
-        <Podium place="1" emoji={topEmojis[0]} loading={loading} />
-        <Podium place="3" emoji={topEmojis[2]} loading={loading} />
+        <Podium
+          place="2"
+          emoji={topEmojis[1]?.emoji || ""}
+          loading={loading}
+          count={topEmojis[1]?.count}
+        />
+        <Podium
+          place="1"
+          emoji={topEmojis[0]?.emoji || ""}
+          loading={loading}
+          count={topEmojis[0]?.count}
+        />
+        <Podium
+          place="3"
+          emoji={topEmojis[2]?.emoji || ""}
+          loading={loading}
+          count={topEmojis[2]?.count}
+        />
       </div>
     </>
   );
@@ -108,18 +125,19 @@ interface TopAppreciatorsProps {
 }
 const TopAppreciators = ({ user_id }: TopAppreciatorsProps) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [topGivers, setTopGivers] = useState<any>([]);
+  const [topGivers, setTopGivers] = useState<TopGiver[]>([]);
 
   const getTopGivers = useCallback(async () => {
     setLoading(true);
     try {
       const { data, error } = await getTopGiversToUser(user_id);
+      debugger;
       if (!error && data) {
-        setTopGivers(data);
+        setTopGivers(data as TopGiver[]);
       }
     } catch {
     } finally {
-      //setLoading(false);
+      setLoading(false);
     }
   }, [user_id]);
 
@@ -137,13 +155,15 @@ const TopAppreciators = ({ user_id }: TopAppreciatorsProps) => {
             })}
           </>
         )}
-        {/* {!loading && (
+        {!loading && (
           <div>
             {topGivers.map((giver, index) => {
-              return <div key={index}>{giver}</div>;
+              return (
+                <div key={index}>{giver.profile?.name || "Anonymous"}</div>
+              );
             })}
           </div>
-        )} */}
+        )}
       </div>
     </>
   );
@@ -153,9 +173,10 @@ interface PodiumProps {
   emoji: any;
   place: "1" | "2" | "3";
   loading: boolean;
+  count: number;
 }
 
-const Podium = ({ emoji, place, loading }: PodiumProps) => {
+const Podium = ({ emoji, place, loading, count }: PodiumProps) => {
   return (
     <div className="flex basis-1/3 flex-col gap-3">
       <div className="mt-auto flex  w-full justify-center">
@@ -185,12 +206,16 @@ const Podium = ({ emoji, place, loading }: PodiumProps) => {
           </div>
         ) : (
           <div
-            className={classNames("border-2 border-primary bg-info", {
+            className={classNames("bg-info rounded", {
               "h-16": place === "3",
               "h-28": place === "2",
               "h-40": place === "1",
             })}
-          ></div>
+          >
+            <h6 className="flex justify-center pt-5 text-xl font-black">
+              {count}
+            </h6>
+          </div>
         )}
       </div>
     </div>
