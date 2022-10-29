@@ -10,13 +10,15 @@ import SkillBadgeAbi from "../contract/abi/pot/SkillBadge.json";
 import SignatureAttesterAbi from "../contract/abi/pot/SignatureAttester.json";
 
 export enum ContractName {
-  LensVerifier = "LensVerifier",
-  SignatureVerifier = "SignatureVerifier",
-  IdentityMerkleAttester = "IdentityMerkleAttester",
-  SkillAttester = "SkillAttester",
-  SkillBadge = "SkillBadge",
-  SignatureAttester = "SignatureAttester",
+  Badges = "Badges",
+  reputationRegistry = "reputationRegistry",
+  identity = "identity",
+  karmaTokenManager = "karmaTokenManager",
+  karmaToken = "karmaToken",
+  lensVerifier = "lensVerifier",
+  signatureVerifier = "signatureVerifier",
 }
+
 interface ChainInfo {
   readonly gnosisTxServiceUrl: string;
   readonly rpcUrl: string[];
@@ -35,7 +37,7 @@ interface ChainInfo {
 
 export type ChainInfoMap = { readonly [chainId: number]: ChainInfo };
 export const CHAIN_INFO: ChainInfoMap = {
-  [chain.rinkeby.id]: {
+  [chain.polygonMumbai.id]: {
     gnosisTxServiceUrl: "https://safe-transaction.rinkeby.gnosis.io",
     rpcUrl: [
       `https://rinkeby.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`,
@@ -47,119 +49,40 @@ export const CHAIN_INFO: ChainInfoMap = {
     raribleUrl: `https://testnet.rarible.com/token/rinkeby/`,
     nativeTokenSymbol: `ETH`,
     nativeTokenDecimals: 18,
-    contracts: {},
-  },
-  [chain.goerli.id]: {
-    gnosisTxServiceUrl: "https://safe-transaction.goerli.gnosis.io",
-    rpcUrl: [
-      `https://goerli.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`,
-      `https://eth-goerli.alchemyapi.io/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY_GOERLI}`,
-    ],
-    alchemyNftApiUrl: `https://eth-goerli.alchemyapi.io/nft/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY_GOERLI}`,
-    txUrl: `https://goerli.etherscan.io/tx/`,
-    openseaUrl: `https://testnets.opensea.io/assets/goerli/`,
-    raribleUrl: `https://testnet.rarible.com/token/goerli/`,
-    nativeTokenSymbol: `ETH`,
-    nativeTokenDecimals: 18,
     contracts: {
-      [ContractName.LensVerifier]: {
-        address: "0xe50CEebA7F0f796C65E92A3ea7A6d1B6e0b7A40E",
+      [ContractName.Badges]: {
+        address: "0xcfdee74a633c7078970d31e2f305e9f9592c231f",
       },
-      [ContractName.SignatureVerifier]: {
-        address: "0xFD75D91321816bd4772831621Af68089631eA459",
+      [ContractName.reputationRegistry]: {
+        address: "0x528a14bc877da96e6bfac3ecd4f429e43b168a10",
       },
-      [ContractName.IdentityMerkleAttester]: {
-        address: "0xc5E69b64CaaB96488D40274dFF83Ba53A58d3e30",
+      [ContractName.identity]: {
+        address: "0x515d42cc905af2cbaf1d7497a223326096719b62",
       },
-      [ContractName.SkillAttester]: {
-        address: "0xD94fF43dF23540e9e06F56F36e7fe54565aEB483",
+      [ContractName.karmaTokenManager]: {
+        address: "0x9e73f331dfd2a4bf15c28f4c6a70a6d9015df751",
       },
-      [ContractName.SkillBadge]: {
-        address: "0xCa66E3b10D5a207a221199b8bCfadab3212f878b",
+      [ContractName.karmaToken]: {
+        address: "0x51afbcfdac8fbccdfa0d8fb60596e331f202d3ac",
       },
-      [ContractName.SignatureAttester]: {
-        address: "0xeE9Cc5630F1d1d17d2EA232ca12ff52c4a099920",
+      [ContractName.lensVerifier]: {
+        address: "0xbc3f9b4b0f479e90c02e9bab3288b0c3509f42af",
+      },
+      [ContractName.signatureVerifier]: {
+        address: "0xb4e1f53c2f71d78da3a64194be3d28a904312978",
       },
     },
-  },
-  [chain.mainnet.id]: {
-    gnosisTxServiceUrl: "https://safe-transaction.gnosis.io",
-    rpcUrl: [
-      `https://mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`,
-      `https://eth-mainnet.alchemyapi.io/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY_ETH_MAINNET}`,
-    ],
-    alchemyNftApiUrl: `https://eth-mainnet.alchemyapi.io/nft/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY_ETH_MAINNET}`,
-    txUrl: `https://etherscan.io/tx/`,
-    openseaUrl: `https://opensea.io/assets/ethereum/`,
-    raribleUrl: `https://rarible.com/token/`,
-    nativeTokenSymbol: `ETH`,
-    nativeTokenDecimals: 18,
-    coingeckoChainName: `ethereum`,
-    coingeckoNativeTokenId: "ethereum",
-    contracts: {},
-  },
-  [chain.polygon.id]: {
-    gnosisTxServiceUrl: "https://safe-transaction.polygon.gnosis.io",
-    rpcUrl: [
-      `https://polygon-mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`,
-      `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY_POLY}`,
-    ],
-    alchemyNftApiUrl: `https://polygon-mainnet.g.alchemy.com/nft/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY_POLY}`,
-    txUrl: `https://polygonscan.io/tx/`,
-    openseaUrl: `https://opensea.io/assets/matic/`,
-    raribleUrl: `https://rarible.com/token/polygon/`,
-    nativeTokenSymbol: `MATIC`,
-    nativeTokenDecimals: 18,
-    coingeckoChainName: `polygon-pos`,
-    coingeckoNativeTokenId: "matic-network",
-    contracts: {
-      [ContractName.LensVerifier]: {
-        address: "0xC33926eeF7195cC1128f48E8E877694dFe3c2dC4",
-      },
-      [ContractName.SignatureVerifier]: {
-        address: "0x9C92849c0a882872b21a73693B2e37b463CEc201",
-      },
-      [ContractName.IdentityMerkleAttester]: {
-        address: "0x22222C9042EC0c45EfE94d0A08B8DCeD57086211",
-      },
-      [ContractName.SkillAttester]: {
-        address: "0xAD6176Fe096Af5A20A333E841c58fD593A8D3A9f",
-      },
-      [ContractName.SkillBadge]: {
-        address: "0xB4ad4f74d65A64BD8886F9AeB6CB4d227fFBeD18",
-      },
-      [ContractName.SignatureAttester]: {
-        address: "0x8f4c102875AFb6152004f8e87cF1cBF90431Df54",
-      },
-    },
-  },
-  [chain.optimism.id]: {
-    gnosisTxServiceUrl: "https://safe-transaction.optimism.gnosis.io/",
-    rpcUrl: [
-      `https://optimism-mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`,
-      `https://opt-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY_OPT_MAINNET}`,
-    ],
-    alchemyNftApiUrl: `https://opt-mainnet.g.alchemy.com/nft/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY_OPT_MAINNET}`,
-    txUrl: `https://optimistic.etherscan.io/tx/`,
-    openseaUrl: `https://opensea.io/assets/optimism/`,
-    raribleUrl: `https://rarible.com/token/optimism/`,
-    nativeTokenSymbol: `ETH`,
-    nativeTokenDecimals: 18,
-    coingeckoChainName: `optimistic-ethereum`,
-    coingeckoNativeTokenId: "ethereum",
-    contracts: {},
   },
 };
 
 export const ContractAbi: { [contractName in ContractName]: string } = {
-  [ContractName.LensVerifier]: JSON.stringify(AttestationRegistryAbi),
-  [ContractName.SignatureVerifier]: JSON.stringify(BadgesAbi),
-  [ContractName.IdentityMerkleAttester]: JSON.stringify(
-    IdentityMerkleAttesterAbi
-  ),
-  [ContractName.SkillAttester]: JSON.stringify(SkillAttesterAbi),
-  [ContractName.SkillBadge]: JSON.stringify(SkillBadgeAbi),
-  [ContractName.SignatureAttester]: JSON.stringify(SignatureAttesterAbi),
+  [ContractName.Badges]: JSON.stringify(AttestationRegistryAbi),
+  [ContractName.identity]: JSON.stringify(""),
+  [ContractName.reputationRegistry]: JSON.stringify(BadgesAbi),
+  [ContractName.karmaTokenManager]: JSON.stringify(IdentityMerkleAttesterAbi),
+  [ContractName.karmaToken]: JSON.stringify(SkillAttesterAbi),
+  [ContractName.lensVerifier]: JSON.stringify(SkillBadgeAbi),
+  [ContractName.signatureVerifier]: JSON.stringify(SignatureAttesterAbi),
 };
 
 export const ExternalContracts = {

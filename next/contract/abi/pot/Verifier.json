@@ -1,0 +1,192 @@
+[
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "repId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "verifier",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "value",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "timestamp",
+              "type": "uint256"
+            }
+          ],
+          "indexed": false,
+          "internalType": "struct Reputation",
+          "name": "reputation",
+          "type": "tuple"
+        }
+      ],
+      "name": "ReputationGenerated",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "components": [
+                {
+                  "internalType": "uint256",
+                  "name": "repId",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "claimedValue",
+                  "type": "uint256"
+                }
+              ],
+              "internalType": "struct Claim[]",
+              "name": "claims",
+              "type": "tuple[]"
+            },
+            {
+              "internalType": "address",
+              "name": "destination",
+              "type": "address"
+            }
+          ],
+          "internalType": "struct Request",
+          "name": "request",
+          "type": "tuple"
+        },
+        {
+          "internalType": "bytes",
+          "name": "proofData",
+          "type": "bytes"
+        }
+      ],
+      "name": "buildReputations",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "repId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "verifier",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "value",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "timestamp",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct Reputation[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "components": [
+                {
+                  "internalType": "uint256",
+                  "name": "repId",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "claimedValue",
+                  "type": "uint256"
+                }
+              ],
+              "internalType": "struct Claim[]",
+              "name": "claims",
+              "type": "tuple[]"
+            },
+            {
+              "internalType": "address",
+              "name": "destination",
+              "type": "address"
+            }
+          ],
+          "internalType": "struct Request",
+          "name": "request",
+          "type": "tuple"
+        },
+        {
+          "internalType": "bytes",
+          "name": "proofData",
+          "type": "bytes"
+        }
+      ],
+      "name": "generateReputations",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "repId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "verifier",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "value",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "timestamp",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct Reputation[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
