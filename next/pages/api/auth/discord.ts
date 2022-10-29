@@ -77,12 +77,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (err) {
     console.log("error", err);
-    res.redirect(
-      `/user/${walletAddress}/?integration_success=false&user_id=${userId}`
-    );
+    res.redirect(`?integration_success=false&user_id=${userId}`);
   } else {
-    res.redirect(
-      `/user/${walletAddress}/?integration_success=true&user_id=${userId}`
-    );
+    res.redirect(`?integration_success=true&user_id=${userId}`);
   }
 };
