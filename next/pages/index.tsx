@@ -137,7 +137,6 @@ export default function Home({
           );
         })}
       </div>
-     
     </div>
   );
 }
@@ -185,7 +184,9 @@ export const getServerSideProps = async (): Promise<
   });
 
   const { data: discordIdData, error: discordIdDataError } =
-    await supabaseService.rpc("select_unique_guild_ids");
+    await supabaseService.from("unique_guilds").select("server_id");
+
+  const guildsData = discordIdData?.map((item) => item.server_id);
 
   if (discordIdDataError) {
     throw new Error(discordIdDataError.message);
@@ -193,23 +194,22 @@ export const getServerSideProps = async (): Promise<
 
   const discordServerIdsWithNames: DiscordServerData[] = [];
 
-  if (Array.isArray(discordIdData)) {
-    // Have to finish this method
-  } else {
-    const { data: guildData } = await axios.get(
-      `https://discord.com/api/guilds/${discordIdData}/preview`,
-      {
-        headers: {
-          Authorization: `Bot ${process.env.DISCORD_TOKEN}`,
-        },
-      }
-    );
-
-    discordServerIdsWithNames.push({
-      id: discordIdData,
-      name: guildData.name,
-      memberCount: guildData.approximate_member_count,
-    });
+  if (guildsData && guildsData.length > 0) {
+    for (const guildId of guildsData) {
+      const { data: guildData } = await axios.get(
+        `https://discord.com/api/guilds/${guildId}/preview`,
+        {
+          headers: {
+            Authorization: `Bot ${process.env.DISCORD_TOKEN}`,
+          },
+        }
+      );
+      discordServerIdsWithNames.push({
+        id: guildId,
+        name: guildData.name,
+        memberCount: guildData.approximate_member_count,
+      });
+    }
   }
 
   if (discordIdData) {

@@ -41,3 +41,4 @@ $$ language sql;
 
 CREATE OR REPLACE VIEW leaderboard AS SELECT test.count, test.receiver_id, users.wallet_address from (select count(receiver_id), receiver_id, user_id from (select reactions.id, reactions.sender_id, reactions.receiver_id, reactions.emoji, discord_integrations.user_id from reactions left outer join  discord_integrations on reactions.receiver_id = discord_integrations.discord_id) as reactions_view group by (receiver_id, user_id) ) as test left outer join users on test.user_id = users.id where wallet_address is NOT NULL;
 
+CREATE OR REPLACE VIEW unique_guilds AS SELECT  select distinct server_id from reactions;
