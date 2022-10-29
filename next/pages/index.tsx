@@ -1,4 +1,6 @@
-import { LeaderboardCard } from "../components/LeaderboardCard";
+import Image from "next/image";
+import AddPotBotToServer from "../components/AddPotbotToServer";
+import Discord from "../components/Discord";
 import { useUserData } from "../contexts/AuthContext";
 
 const mockData = [
@@ -14,15 +16,26 @@ const mockData = [
 
 
 export default function Home() {
+  const user = useUserData();
+
   return (
-    <div className="flex flex-col gap-3">
-      <h6 className="flex justify-center text-3xl text-secondary mb-5">
-        Leaderboard
-      </h6>
-      {mockData &&
-        mockData.map((option, index) => {
-          return <LeaderboardCard {...option} key={option.id} />;
-        })}
+    <div className="flex items-center justify-center h-screen flex-col gap-4">
+      <div className="relative h-48 w-96">
+        <Image
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTl7gkXh9lKNdrIlYUdEVXkRsJp4LUR4frL0A&usqp=CAU"
+          alt="current status of Joni"
+          fill={true}
+          unoptimized={true}
+        />
+      </div>
+      <h1 className="text-primary text-5xl"> HELLO {user?.id}</h1>
+      {user && <Discord />}
     </div>
   );
 }
+
+/**
+ * start discord oauth flow - hit discord with a redirect URI
+ * have an api for the redirect on the /api level
+ * 
+ */
