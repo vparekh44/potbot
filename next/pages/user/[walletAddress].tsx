@@ -1,5 +1,4 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
-import { GiTeapot } from "react-icons/gi";
 import Emoji from "../../components/Emoji";
 import { supabaseService } from "../../lib/supabaseServiceClient";
 import Image from "next/image";
@@ -46,8 +45,7 @@ const UserPage = ({ id, walletAddress }: ProfileProps) => {
             </div>
           </div>
           <div className="flex mx-auto">
-            <h6 className="inline my-auto font-black text-lg">Reputation: 3</h6>
-            <GiTeapot size={24} className="inline my-auto ml-2" />
+            <h6 className="inline my-auto font-black text-lg">Reputation: 3 🍯</h6>
           </div>
         </div>
         <div className="px-4 border-l basis-3/4 flex-justify-center">
