@@ -3,7 +3,7 @@ import { useTheme } from "next-themes";
 import { TbMoon, TbSun } from "react-icons/tb";
 import { useLogout } from "../contexts/AuthContext";
 
-export const NavBar = () => {
+export const TopNavigation = () => {
   const { theme, setTheme } = useTheme();
   const { open } = useConnectModal();
   const logout = useLogout();
