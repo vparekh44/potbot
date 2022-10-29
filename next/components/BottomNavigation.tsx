@@ -14,7 +14,7 @@ export const BottomNavigation = () => {
         onClick={() => router.push("/")}
         className={classNames({ active: router.asPath === "/" })}
       >
-        📊
+        🏠
       </button>
       <button
         onClick={() => {
