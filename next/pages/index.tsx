@@ -10,8 +10,8 @@ import { useUserData } from "../contexts/AuthContext";
 
 interface DiscordServerData {
   id: string;
-  name: string;
-  memberCount: number;
+  name?: string;
+  memberCount?: number;
   topReceivers: LeaderItem[];
   memberWithWalletsCount: number;
 }
@@ -143,12 +143,12 @@ export default function Home({
             return (
               <div className="card w-96 glass" key={item.id}>
                 <div className="card-body">
-                  <h2 className="card-title">{item.name}</h2>
+                  <h2 className="text-base">Server ID {item.id}</h2>
                   <div className="flex flex-col">
-                    <p className="text-xs font-bold">
+                    {/* <p className="text-xs font-bold">
                       Total members:{" "}
                       <span className="text-accent">{item.memberCount}</span>
-                    </p>
+                    </p> */}
                     <p className="text-xs font-bold">
                       Members with wallet linked:{" "}
                       <span className="text-accent">
@@ -250,44 +250,48 @@ export const getServerSideProps = async (): Promise<
 
   if (guildsData && guildsData.length > 0) {
     for (const guildId of guildsData) {
-      await new Promise((resolve) => setTimeout(resolve, 50));
-      const { data: guildData } = await axios.get(
-        `https://discord.com/api/guilds/${guildId}/preview`,
-        {
-          headers: {
-            Authorization: `Bot ${process.env.DISCORD_TOKEN}`,
-          },
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      try {
+        // const { data: guildData } = await axios.get(
+        //   `https://discord.com/api/guilds/${guildId}/preview`,
+        //   {
+        //     headers: {
+        //       Authorization: `Bot ${process.env.DISCORD_TOKEN}`,
+        //     },
+        //   }
+        // );
+
+        const { data, error, count } = await supabaseService
+          .from("server_stats")
+          .select("*", { count: "exact" })
+          .eq("server_id", guildId)
+          .order("count", { ascending: false })
+          .limit(8);
+
+        if (error) {
+          throw new Error(error.message);
         }
-      );
+        const topReceivers = [];
 
-      const { data, error, count } = await supabaseService
-        .from("server_stats")
-        .select("*", { count: "exact" })
-        .eq("server_id", guildId)
-        .order("count", { ascending: false })
-        .limit(8);
-
-      if (error) {
-        throw new Error(error.message);
-      }
-      const topReceivers = [];
-
-      if (data && data.length > 0) {
-        for (const item of data) {
-          topReceivers.push({
-            walletAddress: item.wallet_address,
-            count: item.count,
-          });
+        if (data && data.length > 0) {
+          for (const item of data) {
+            topReceivers.push({
+              walletAddress: item.wallet_address,
+              count: item.count,
+            });
+          }
         }
-      }
 
-      discordServerIdsWithNames.push({
-        id: guildId,
-        name: guildData.name,
-        memberCount: guildData.approximate_member_count,
-        topReceivers,
-        memberWithWalletsCount: count || 0,
-      });
+        discordServerIdsWithNames.push({
+          id: guildId,
+          // name: guildData.name,
+          // memberCount: guildData.approximate_member_count,
+          topReceivers,
+          memberWithWalletsCount: count || 0,
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
