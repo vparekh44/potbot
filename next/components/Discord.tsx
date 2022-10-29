@@ -112,23 +112,23 @@ const Discord = ({ disabled = false }: { disabled?: boolean }) => {
     <div>
       {discordIntegerated ? (
         <button
-          className={classNames("btn btn-lg btn-error", {
+          className={classNames("btn btn-md sm:btn-lg btn-error", {
             "loading btn-disabled": loading,
             "disabled btn-disabled": loading || disabled,
           })}
           onClick={handleDiscordDisconnect}
         >
-          Link Discord
+          Unlink Discord
         </button>
       ) : (
         <button
-          className={classNames("btn btn-lg btn-primary", {
+          className={classNames("btn btn-md sm:btn-lg btn-primary", {
             "loading btn-disabled": loading,
             "disabled btn-disabled": loading || disabled,
           })}
           onClick={startDiscordAuthFlow}
         >
-          Connect Discord
+          Link Discord
         </button>
       )}
     </div>

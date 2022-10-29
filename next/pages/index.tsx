@@ -36,7 +36,7 @@ export default function Home({
 }: HomePageProps) {
   const [serverData, setServerData] = useState(discordServerData);
   const user = useUserData();
-console.log(user)
+  console.log(user);
   return (
     <div className="flex flex-col gap-3">
       <div className="hero min-h-screen bg-base-200">
@@ -49,9 +49,9 @@ console.log(user)
               <p className="text-5xl sm:text-8xl">🪴</p>
             </div>
             <p className="py-6 max-w-md text-center sm:text-start">
-              Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-              excepturi exercitationem quasi. In deleniti eaque aut repudiandae
-              et a id nisi.
+              Store proofs of everyday communication on-chain – quantifying and
+              offering insights about day-to-day work and interaction within
+              communities.
             </p>
             <div className="stats shadow hidden sm:flex">
               <div className="stat">
@@ -76,7 +76,7 @@ console.log(user)
               </div>
             </div>
             <div className="flex justify-center gap-10 pt-10">
-              <AddPotBotToServer />  <Discord disabled={!user?.id}/>
+              <AddPotBotToServer /> <Discord disabled={!user?.id} />
             </div>
           </div>
         </div>
@@ -137,57 +137,57 @@ console.log(user)
         Most endorsed users per server{" "}
       </p>
       <div className="flex justify-center">
-      <div className="grid grid-cols-1 gap-4 pb-20 sm:grid-cols-3">
-        {discordServerData.map((item) => {
-          return (
-            <div className="card w-96 glass" key={item.id}>
-              <div className="card-body">
-                <h2 className="card-title">{item.name}</h2>
-                <div className="flex flex-col">
-                  <p className="text-xs font-bold">
-                    Total members:{" "}
-                    <span className="text-accent">{item.memberCount}</span>
-                  </p>
-                  <p className="text-xs font-bold">
-                    Members with wallet linked:{" "}
-                    <span className="text-accent">
-                      {item.memberWithWalletsCount}
-                    </span>
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2">
-                  {item.topReceivers.map((item, index) => {
-                    //find max count
-                    const maxCount = Math.max(
-                      ...leaders.map((item) => item.count)
-                    );
-                    const percentage = (item.count / maxCount) * 100;
+        <div className="grid grid-cols-1 gap-4 pb-20 sm:grid-cols-3">
+          {discordServerData.map((item) => {
+            return (
+              <div className="card w-96 glass" key={item.id}>
+                <div className="card-body">
+                  <h2 className="card-title">{item.name}</h2>
+                  <div className="flex flex-col">
+                    <p className="text-xs font-bold">
+                      Total members:{" "}
+                      <span className="text-accent">{item.memberCount}</span>
+                    </p>
+                    <p className="text-xs font-bold">
+                      Members with wallet linked:{" "}
+                      <span className="text-accent">
+                        {item.memberWithWalletsCount}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    {item.topReceivers.map((item, index) => {
+                      //find max count
+                      const maxCount = Math.max(
+                        ...leaders.map((item) => item.count)
+                      );
+                      const percentage = (item.count / maxCount) * 100;
 
-                    return (
-                      <div
-                        className="w-full gap-3 flex items-center"
-                        key={index}
-                      >
-                        <Link
-                          href={`/user/${item.walletAddress}`}
-                          className="underline text-xs w-20 text-accent"
+                      return (
+                        <div
+                          className="w-full gap-3 flex items-center"
+                          key={index}
                         >
-                          {truncateEthAddress(item.walletAddress)}
-                        </Link>
-                        <progress
-                          className="progress progress-primary h-3 w-full"
-                          value={percentage}
-                          max="100"
-                        ></progress>
-                        <div className="text-base">{item.count}</div>
-                      </div>
-                    );
-                  })}
+                          <Link
+                            href={`/user/${item.walletAddress}`}
+                            className="underline text-xs w-20 text-accent"
+                          >
+                            {truncateEthAddress(item.walletAddress)}
+                          </Link>
+                          <progress
+                            className="progress progress-primary h-3 w-full"
+                            value={percentage}
+                            max="100"
+                          ></progress>
+                          <div className="text-base">{item.count}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
         </div>
       </div>
     </div>
