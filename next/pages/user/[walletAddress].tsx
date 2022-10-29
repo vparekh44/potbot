@@ -24,15 +24,13 @@ type ProfileProps = {
   walletAddress: string;
 };
 
-const mockAttestations = [{ date: "2022-01-03" }, { date: "2022-02-05" }];
-
 const UserPage = ({ id, walletAddress }: ProfileProps) => {
   const logout = useLogout();
 
   return (
     <div className="h-full w-full">
       <>
-        <div className="flex gap-5">
+        <div className="flex justify-center mt-10">
           <div className="avatar basis-1/4 flex flex-col">
             <div className="mx-auto mb-5">
               <div className="w-24 relative h-24">
@@ -51,14 +49,21 @@ const UserPage = ({ id, walletAddress }: ProfileProps) => {
               </h6>
             </div>
           </div>
-          <div className="px-4 border-l basis-3/4 flex-justify-center">
-            <h6 className="text-center"></h6>
-            <div className="mb-5">
+        </div>
+        <div className="flex gap-5 lg:flex-row">
+          <div className="w-full basis-1/2">
+            <div className="text-2xl text-center mb-5 capitalize">
+              The Reactionaries
+            </div>
+            <div className="mb-5 px-10">
               <TopAppreciators user_id={id}></TopAppreciators>
             </div>
-
-            <div className="text-2xl">Reactions:</div>
-            <div className="my-5">
+          </div>
+          <div className="w-full basis-1/2">
+            <div className="text-2xl text-center mb-5 capitalize">
+              Top Reactions
+            </div>
+            <div className="my-5 flex justify-center">
               <TopEmojisReceived user_id={id} />
             </div>
           </div>
@@ -196,21 +201,20 @@ const TopGiverCard = ({ wallet, name, image, count }: TopGiverCardProps) => {
       {user && user.walletAddress !== wallet && (
         <Link href={`/user${wallet}`}>
           <div className="flex border border-neutral p-3">
-            <div className="avatar">
-              <div className="w-10 relative h-10">
-                <Image
-                  src={
-                    image
-                      ? image
-                      : "https://i.pinimg.com/564x/af/60/be/af60be8ab2017c8a0c102c5d67e98395--flower-gardening-organic-gardening.jpg"
-                  }
-                  alt="placeholder"
-                  className="rounded-full"
-                  fill={true}
-                  unoptimized={true}
-                />
-              </div>
-              <div className="ml-3 my-auto">{name || "Anonymous"}</div>
+            <div className="avatar max-w-[40px] max-h-[40px]">
+              <Image
+                src={
+                  image
+                    ? image
+                    : "https://i.pinimg.com/564x/af/60/be/af60be8ab2017c8a0c102c5d67e98395--flower-gardening-organic-gardening.jpg"
+                }
+                alt="placeholder"
+                className="rounded-full"
+                height={400}
+                width={2}
+                unoptimized={true}
+              />
+              <div className="ml-3">{name || "Anonymous"}</div>
             </div>
 
             <div className="ml-auto my-auto">{count || ""}</div>
