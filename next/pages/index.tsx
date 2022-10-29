@@ -1,6 +1,9 @@
 import Image from "next/image";
+import { useUserData } from "../contexts/AuthContext";
+
 
 export default function Home() {
+  const user = useUserData();
   return (
     <div className="flex items-center justify-center h-screen flex-col gap-4">
       <div className="relative h-48 w-96">
@@ -11,7 +14,7 @@ export default function Home() {
           unoptimized={true}
         />
       </div>
-      <h1 className="text-white text-5xl">Current Joni Status</h1>
+      <h1 className="text-primary text-5xl"> HELLO {user?.id}</h1>
     </div>
   );
 }

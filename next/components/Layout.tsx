@@ -1,4 +1,4 @@
-import { Web3Button } from "@web3modal/react";
+import { useAccount, useConnectModal, Web3Button } from "@web3modal/react";
 import classNames from "classnames";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
@@ -7,6 +7,7 @@ import { FiSettings, FiLogIn } from "react-icons/fi";
 import { GiTeapot } from "react-icons/gi";
 import { GoPerson } from "react-icons/go";
 import { TbMoon, TbSun } from "react-icons/tb";
+import { useLogout } from "../contexts/AuthContext";
 
 interface LayoutProps {
   children: ReactNode;
@@ -15,7 +16,7 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <>
-      <div>{children}</div>
+      <div className="px-6 pt-20">{children}</div>
       <RightSide />
       <Menu />
     </>
@@ -24,13 +25,25 @@ const Layout = ({ children }: LayoutProps) => {
 
 const RightSide = () => {
   const { theme, setTheme } = useTheme();
+  const { isOpen, open, close } = useConnectModal();
+  const logout = useLogout();
+  const { account } = useAccount();
 
   const toggleTheme = () => {
     theme !== "dark" ? setTheme("dark") : setTheme("light");
   };
+
+  const handleConnect = () => {
+    open();
+  };
+
+  const handleDisconnect = () => {
+    logout();
+  };
+
   return (
     <div className="fixed right-3 top-5 flex gap-3">
-      <Web3Button />
+      <button onClick={account.isConnected ? handleDisconnect : handleConnect} className="btn-primary">{account.isConnected ? "Disconnect" : "Connect"}</button>
       <div className="cursor-pointer my-auto" onClick={toggleTheme}>
         {theme !== "dark" ? <TbMoon size={24} /> : <TbSun size={24} />}
       </div>
