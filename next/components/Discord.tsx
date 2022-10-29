@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { supabase } from "../lib/supabaseClient";
 import classNames from "classnames";
 
-const Discord = () => {
+const Discord = ({ disabled = false }: { disabled?: boolean }) => {
   const user = useUserData();
   const router = useRouter();
   const [cookies] = useCookies(["access_token"]);
@@ -108,30 +108,31 @@ const Discord = () => {
     }
   }, [user]);
 
-
   return (
-    <div className="fixed right-4 bottom-10">
-      {discordIntegerated ? <button
-        className={classNames("btn btn-error", {
-          loading: loading,
-          disabled: loading,
-        })}
-        onClick={handleDiscordDisconnect}
-      >
-        Disconnect Discord
-      </button> : <button
-        className={classNames("btn btn-primary", {
-          loading: loading,
-          disabled: loading,
-        })}
-        onClick={startDiscordAuthFlow}
-      >
-        Connect Discord
-      </button>}
+    <div>
+      {discordIntegerated ? (
+        <button
+          className={classNames("btn btn-md sm:btn-lg btn-error", {
+            "loading btn-disabled": loading,
+            "disabled btn-disabled": loading || disabled,
+          })}
+          onClick={handleDiscordDisconnect}
+        >
+          Unlink Discord
+        </button>
+      ) : (
+        <button
+          className={classNames("btn btn-md sm:btn-lg btn-primary", {
+            "loading btn-disabled": loading,
+            "disabled btn-disabled": loading || disabled,
+          })}
+          onClick={startDiscordAuthFlow}
+        >
+          Link Discord
+        </button>
+      )}
     </div>
   );
-
-
 };
 
 export default Discord;

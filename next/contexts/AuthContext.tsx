@@ -123,7 +123,7 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
       });
 
       const { user, token } = await response.json();
-
+console.log("received", user)
       setCookie(ACCESS_TOKEN_COOKIE, token, {
         secure: true,
         path: "/",
@@ -133,7 +133,7 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
 
       setUser({
         id: user?.id,
-        walletAddress: user?.wallet_address,
+        walletAddress: user?.walletAddress,
       });
 
       setNonce("");
