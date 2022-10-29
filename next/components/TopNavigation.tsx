@@ -14,7 +14,7 @@ export const TopNavigation = () => {
   const { account } = useAccount();
   const router = useRouter();
   const user = useUserData();
-
+console.log(user)
   const toggleTheme = () => {
     theme !== "dark" ? setTheme("dark") : setTheme("light");
   };
@@ -49,7 +49,7 @@ export const TopNavigation = () => {
         <button
           onClick={() => {
             user
-              ? router.push(`/profile/${user.walletAddress}`)
+              ? router.push(`/user/${user.walletAddress}`)
               : openLoginModal();
           }}
           className={"btn gap-2"}

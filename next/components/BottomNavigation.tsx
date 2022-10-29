@@ -26,7 +26,7 @@ export const BottomNavigation = () => {
       <button
         onClick={() => {
           user
-            ? router.push(`/profile/${user.walletAddress}`)
+            ? router.push(`/user/${user.walletAddress}`)
             : openLoginModal();
         }}
         className={classNames({ active: router.asPath === "" })}
