@@ -2,7 +2,7 @@ import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import Emoji from "../../components/Emoji";
 import { supabaseService } from "../../lib/supabaseServiceClient";
 import Image from "next/image";
-import { useLogout } from "../../contexts/AuthContext";
+import { useLogout, useUserData } from "../../contexts/AuthContext";
 import { useCallback, useEffect, useState } from "react";
 import SkeletonCard from "../../components/SkeletonCard";
 import classNames from "classnames";
@@ -13,6 +13,7 @@ import {
   TopGiver,
 } from "../../services/profileService";
 import Discord from "../../components/Discord";
+import Link from "next/link";
 
 type PageParams = {
   walletAddress: string;
@@ -158,12 +159,64 @@ const TopAppreciators = ({ user_id }: TopAppreciatorsProps) => {
           <div>
             {topGivers.map((giver, index) => {
               return (
-                <div key={index}>{giver.profile?.name || "Anonymous"}</div>
+                <TopGiverCard
+                  key={index}
+                  image={giver.giver_image || ""}
+                  name={giver.giver_name}
+                  wallet={giver.giver_wallet}
+                  count={giver.count}
+                />
               );
             })}
           </div>
         )}
       </div>
+    </>
+  );
+};
+
+interface TopGiverCardProps {
+  wallet: string;
+  name: string;
+  image: string;
+  count: number;
+}
+
+const TopGiverCard = ({ wallet, name, image, count }: TopGiverCardProps) => {
+  const user = useUserData();
+
+  return (
+    <>
+      {user && user.walletAddress === wallet && (
+        <div className="flex border-neutral border p-3">
+          <div>Doing some self appreciation huh?</div>
+          <div className="ml-auto">{count}</div>
+        </div>
+      )}
+      {user && user.walletAddress !== wallet && (
+        <Link href={`/user${wallet}`}>
+          <div className="flex border border-neutral p-3">
+            <div className="avatar">
+              <div className="w-10 relative h-10">
+                <Image
+                  src={
+                    image
+                      ? image
+                      : "https://i.pinimg.com/564x/af/60/be/af60be8ab2017c8a0c102c5d67e98395--flower-gardening-organic-gardening.jpg"
+                  }
+                  alt="placeholder"
+                  className="rounded-full"
+                  fill={true}
+                  unoptimized={true}
+                />
+              </div>
+              <div className="ml-3 my-auto">{name || "Anonymous"}</div>
+            </div>
+
+            <div className="ml-auto my-auto">{count || ""}</div>
+          </div>
+        </Link>
+      )}
     </>
   );
 };
