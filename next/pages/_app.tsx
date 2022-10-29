@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import AuthProvider from "../contexts/AuthContext";
 import { ToastContainer } from "react-toastify";
 import Head from "next/head";
-import NextNProgress from 'nextjs-progressbar';
+import NextNProgress from "nextjs-progressbar";
 
 import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -90,11 +90,11 @@ export default function App({ Component, pageProps }: AppProps) {
         />
       </Head>
       <AuthProvider>
-        <NextNProgress color="#570CF8" height={3}/>
+        <NextNProgress color="#570CF8" height={3} />
         <Layout>
           <Component {...pageProps} />
           <Web3Modal config={config} />
-          <ToastContainer />
+          <ToastContainer position="top-center" autoClose={1000} theme={'dark'} />
         </Layout>
       </AuthProvider>
     </ThemeProvider>
