@@ -11,9 +11,9 @@ const Emoji = ({ label, symbol, size = "md", className }: EmojiProps) => (
   <span
     className={classNames(
       "emoji",
-      { "h-6 w-6": (size = "sm") },
-      { "h-8 w-8": (size = "md") },
-      { "h-10 w-10": (size = "lg") },
+      { "texl-xl": (size = "sm") },
+      { "text-2xl": (size = "md") },
+      { "text-3xl": (size = "lg") },
       className
     )}
     role="img"
