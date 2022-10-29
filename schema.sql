@@ -32,3 +32,7 @@ create table "reactions" (
     message_id number not null,
     created_at timestamp with time zone default timezone('utc'::text, now()) not null,
 );
+
+create or replace function select_unique_guild_ids() returns text as $$
+  select distinct server_id from reactions;
+$$ language sql;
