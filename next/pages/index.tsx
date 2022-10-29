@@ -9,6 +9,8 @@ interface DiscordServerData {
   id: string;
   name: string;
   memberCount: number;
+  topReceivers: LeaderItem[];
+  memberWithWalletsCount: number;
 }
 
 interface LeaderItem {
@@ -30,7 +32,6 @@ export default function Home({
   leaders,
 }: HomePageProps) {
   const [serverData, setServerData] = useState(discordServerData);
-
   return (
     <div className="flex flex-col gap-3">
       <div className="hero min-h-screen bg-base-200">
@@ -41,7 +42,6 @@ export default function Home({
                 Proof-Of-Talent Bot!
               </h1>
               <span className="text-5xl sm:text-9xl">🪴</span>
-
             </div>
             <p className="py-6 max-w-md">
               Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
@@ -99,7 +99,7 @@ export default function Home({
         </div>
       </div>
       <h2 className="text-4xl text-center pt-10 font-extrabold">Leaderboard</h2>
-      <p className="stat-desc text-center">Total reactions received</p>
+      <p className="stat-desc text-center">Most endorsed users overall</p>
 
       <div className="flex flex-col gap-6 py-10 justify-center">
         {leaders.map((item, index) => {
@@ -125,15 +125,59 @@ export default function Home({
           );
         })}
       </div>
-      <h2 className="text-4xl pt-10 text-center font-extrabold">Usage Stats</h2>
-      <p className="stat-desc pb-10 text-center">Various discord servers statistics</p>
+      <h2 className="text-4xl pt-10 text-center font-extrabold">
+        Top endorsed users
+      </h2>
+      <p className="stat-desc pb-10 text-center">
+        Most endorsed users per server{" "}
+      </p>
       <div className="grid grid-cols-1 pb-20 sm:grid-cols-3">
         {discordServerData.map((item) => {
           return (
             <div className="card w-96 glass" key={item.id}>
               <div className="card-body">
                 <h2 className="card-title">{item.name}</h2>
-                <p>Members: {item.memberCount}</p>
+                <div className="flex flex-col">
+                  <p className="text-xs font-bold">
+                    Total members:{" "}
+                    <span className="text-accent">{item.memberCount}</span>
+                  </p>
+                  <p className="text-xs font-bold">
+                    Members with wallet linked:{" "}
+                    <span className="text-accent">
+                      {item.memberWithWalletsCount}
+                    </span>
+                  </p>
+                </div>
+                <div className="flex flex-col gap-2">
+                  {item.topReceivers.map((item, index) => {
+                    //find max count
+                    const maxCount = Math.max(
+                      ...leaders.map((item) => item.count)
+                    );
+                    const percentage = (item.count / maxCount) * 100;
+
+                    return (
+                      <div
+                        className="w-full gap-3 flex items-center"
+                        key={index}
+                      >
+                        <Link
+                          href={`/user/${item.walletAddress}`}
+                          className="underline text-xs w-20 text-accent"
+                        >
+                          {truncateEthAddress(item.walletAddress)}
+                        </Link>
+                        <progress
+                          className="progress progress-primary h-3 w-full"
+                          value={percentage}
+                          max="100"
+                        ></progress>
+                        <div className="text-base">{item.count}</div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           );
@@ -198,6 +242,7 @@ export const getServerSideProps = async (): Promise<
 
   if (guildsData && guildsData.length > 0) {
     for (const guildId of guildsData) {
+      await new Promise((resolve) => setTimeout(resolve, 50));
       const { data: guildData } = await axios.get(
         `https://discord.com/api/guilds/${guildId}/preview`,
         {
@@ -206,10 +251,34 @@ export const getServerSideProps = async (): Promise<
           },
         }
       );
+
+      const { data, error, count } = await supabaseService
+        .from("server_stats")
+        .select("*", { count: "exact" })
+        .eq("server_id", guildId)
+        .order("count", { ascending: false })
+        .limit(8);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+      const topReceivers = [];
+
+      if (data && data.length > 0) {
+        for (const item of data) {
+          topReceivers.push({
+            walletAddress: item.wallet_address,
+            count: item.count,
+          });
+        }
+      }
+
       discordServerIdsWithNames.push({
         id: guildId,
         name: guildData.name,
         memberCount: guildData.approximate_member_count,
+        topReceivers,
+        memberWithWalletsCount: count || 0,
       });
     }
   }
