@@ -18,12 +18,12 @@ export const TopNavigation = () => {
     <div className="navbar sticky top-0 z-50 bg-base-100">
       <div className="flex-1">
         <Link href="/" className="btn btn-ghost normal-case text-xl">
-          PotBot
+        🪴 PotBot
         </Link>
       </div>
       <div className="flex-none gap-2 hidden sm:flex">
         <button onClick={() => router.push("/")} className={"btn gap-2"}>
-          📊 Home
+          Home
         </button>
         <button
           onClick={() => {
@@ -33,7 +33,7 @@ export const TopNavigation = () => {
           }}
           className={"btn gap-2"}
         >
-          {user ? <>👤 Profile</> : <>🚪 Login</>}
+          {user ? <>⚡ Claim</> : <>Login</>}
         </button>
         <button className={"btn gap-2 text-2xl"} onClick={toggleTheme}>
           {theme !== "dark" ? "🌚" : "🌝"}

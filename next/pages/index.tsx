@@ -36,11 +36,12 @@ export default function Home({
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row">
           <div className="flex flex-col gap-6">
-            <div className="flex justify-between gap-6 items-center">
+            <div className="flex gap-3 items-center">
               <h1 className="text-2xl sm:text-5xl font-bold">
                 Proof-Of-Talent Bot!
               </h1>
               <span className="text-5xl sm:text-9xl">🪴</span>
+
             </div>
             <p className="py-6 max-w-md">
               Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
@@ -69,13 +70,13 @@ export default function Home({
                 <div className="stat-desc">Across all servers</div>
               </div>
             </div>
-            <div className="flex justify-center sm:justify-end">
+            <div className="flex justify-center pt-10">
               <AddPotBotToServer />
             </div>
           </div>
         </div>
       </div>
-      <div className="stats shadow flex sm:hidden">
+      <div className="stats shadow flex pt-10 sm:hidden">
         <div className="stat">
           <div className="stat-figure text-4xl text-secondary">🎯</div>
           <div className="stat-title">Amount of Servers</div>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const AddPotBotToServer = () => {
   const ADD_DISCORD_URL =
@@ -6,7 +7,7 @@ const AddPotBotToServer = () => {
 
   return (
     <Link href={ADD_DISCORD_URL} target="_blank" rel="noopener noreferrer">
-      <button className="btn btn-lg btn-primary ">Add Potbot 🪴</button>
+      <button className="btn btn-lg btn-primary ">Add Potbot <Image height={32} width={32} alt="Discord icon" src="/discord.svg" className="ml-2"></Image></button>
     </Link>
   );
 };
