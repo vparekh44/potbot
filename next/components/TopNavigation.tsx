@@ -18,7 +18,7 @@ export const TopNavigation = () => {
     <div className="navbar bg-base-100">
       <div className="flex-1">
         <Link href="/" className="btn btn-ghost normal-case text-xl">
-          POTBOT
+          PotBot
         </Link>
       </div>
       <div className="flex-none gap-2 hidden sm:flex">
