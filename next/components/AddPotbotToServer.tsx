@@ -6,7 +6,7 @@ const AddPotBotToServer = () => {
 
   return (
     <Link href={ADD_DISCORD_URL} target="_blank" rel="noopener noreferrer">
-      <button className="btn btn-primary">Add Potbot 🪴</button>
+      <button className="btn btn-lg btn-primary ">Add Potbot 🪴</button>
     </Link>
   );
 };
