@@ -14,6 +14,7 @@ import {
 } from "../../services/profileService";
 import Discord from "../../components/Discord";
 import Link from "next/link";
+import { truncateEthAddress } from "../../lib/utils";
 
 type PageParams = {
   walletAddress: string;
@@ -102,7 +103,7 @@ const TopEmojisReceived = ({ user_id }: TopEmojisReceivedProps) => {
   // in case i need - String.fromCodePoint(0x1f609) - do not remove this.
   return (
     <>
-      <div className="flex flex-row w-1/3">
+      <div className="flex flex-row w-3/4">
         <Podium
           place="2"
           emoji={topEmojis[1]?.emoji || ""}
@@ -194,12 +195,12 @@ const TopGiverCard = ({ wallet, name, image, count }: TopGiverCardProps) => {
     <>
       {user && user.walletAddress === wallet && (
         <div className="flex border-neutral border p-3">
-          <div>Doing some self appreciation huh?</div>
+          <p className="text-secondary">Doing some self appreciation! Nice!</p>
           <div className="ml-auto">{count}</div>
         </div>
       )}
       {user && user.walletAddress !== wallet && (
-        <Link href={`/user${wallet}`}>
+        <Link href={`/user/${wallet}`}>
           <div className="flex border border-neutral p-3">
             <div className="avatar max-w-[40px] max-h-[40px]">
               <Image
@@ -210,11 +211,17 @@ const TopGiverCard = ({ wallet, name, image, count }: TopGiverCardProps) => {
                 }
                 alt="placeholder"
                 className="rounded-full"
-                height={400}
-                width={2}
+                height={40}
+                width={40}
                 unoptimized={true}
               />
-              <div className="ml-3">{name || "Anonymous"}</div>
+            </div>
+            <div className="flex flex-col justify-center ml-3">
+              {wallet ? (
+                <p className="text-primary">{truncateEthAddress(wallet)}</p>
+              ) : (
+                <p>Anonymous</p>
+              )}
             </div>
 
             <div className="ml-auto my-auto">{count || ""}</div>
@@ -234,8 +241,8 @@ interface PodiumProps {
 
 const Podium = ({ emoji, place, loading, count }: PodiumProps) => {
   return (
-    <div className="flex basis-1/3 flex-col gap-3">
-      <div className="mt-auto flex  w-full justify-center">
+    <div className="flex w-full flex-col gap-3">
+      <div className="mt-auto flex w-full justify-center">
         {loading ? (
           <div className="flex justify-center h-6 w-6">
             <SkeletonCard rounded="xl" />
@@ -268,7 +275,7 @@ const Podium = ({ emoji, place, loading, count }: PodiumProps) => {
               "h-40": place === "1",
             })}
           >
-            <h6 className="flex justify-center pt-5 text-xl font-black">
+            <h6 className="flex justify-center pt-5 text-xl font-black text-white">
               {count}
             </h6>
           </div>
