@@ -12,7 +12,7 @@ const emojiSummary = [
   { emoji: 0x1f609, numberShown: 15 },
   { emoji: 0x1f609, numberShown: 10 },
 ];
-const Profile = () => {
+const ProfilePage = () => {
   return (
     <>
       <div className="flex gap-5">
@@ -65,4 +65,4 @@ const Profile = () => {
     </>
   );
 };
-export default Profile;
+export default ProfilePage;
