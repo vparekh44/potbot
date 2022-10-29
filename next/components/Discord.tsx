@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { supabase } from "../lib/supabaseClient";
 import classNames from "classnames";
 
-const Discord = ({ disabled = false }: { disabled?: boolean }) => {
+const Discord = ({ disabled = false }: { disabled?: boolean; }) => {
   const user = useUserData();
   const router = useRouter();
   const [cookies] = useCookies(["access_token"]);
@@ -97,7 +97,7 @@ const Discord = ({ disabled = false }: { disabled?: boolean }) => {
       router.push(router.asPath.substring(0, router.asPath.indexOf("?")));
       // setDiscordLoading(false);
     }
-  }, [integration_success, linkDiscord, router, router.query, user_id]);
+  }, [integration_success, router, user_id]);
 
   useEffect(() => {
     /**
