@@ -1,17 +1,6 @@
-import { useProvider, useSigner, useContract } from "@web3modal/react";
 import { Contract, ethers } from "ethers";
 import { Chain, chain } from "wagmi";
-import { CHAIN_INFO, ContractName, ContractAbi } from "../config/chain";
-
-// TODO: check this with Sahil
-export const decodeSignatureGroupProperties = (
-  data: string
-): ethers.utils.Result => {
-  return ethers.utils.defaultAbiCoder.decode(
-    ["tuple(uint128,uint32,bytes)"],
-    data
-  );
-};
+import { ContractName, ContractAbi, CHAIN_INFO } from "../config/chain";
 
 export async function getNextNonce(
   provider: any,

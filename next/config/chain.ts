@@ -1,11 +1,11 @@
 import { chain } from "wagmi";
 
-// import AttestationRegistryAbi from "../contract/abi/pot/AttestationRegistry.json";
-// import BadgesAbi from "../contract/abi/pot/Badges.json";
-// import IdentityMerkleAttesterAbi from "../contract/abi/pot/IdentityMerkleAttester.json";
-// import SkillAttesterAbi from "../contract/abi/pot/SkillAttester.json";
-// import SkillBadgeAbi from "../contract/abi/pot/SkillBadge.json";
-// import SignatureAttesterAbi from "../contract/abi/pot/SignatureAttester.json";
+import AttestationRegistryAbi from "../contract/abi/pot/AttestationRegistry.json";
+import BadgesAbi from "../contract/abi/pot/Badges.json";
+import IdentityMerkleAttesterAbi from "../contract/abi/pot/IdentityMerkleAttester.json";
+import SkillAttesterAbi from "../contract/abi/pot/SkillAttester.json";
+import SkillBadgeAbi from "../contract/abi/pot/SkillBadge.json";
+import SignatureAttesterAbi from "../contract/abi/pot/SignatureAttester.json";
 
 export enum ContractName {
   AttestationRegistry = "AttestationRegistry",
@@ -60,10 +60,10 @@ export const CHAIN_INFO: ChainInfoMap = {
     nativeTokenSymbol: `ETH`,
     nativeTokenDecimals: 18,
     contracts: {
-      [ContractName.AttestationRegistry]: {
+      [ContractName.LensVerifier]: {
         address: "0xe50CEebA7F0f796C65E92A3ea7A6d1B6e0b7A40E",
       },
-      [ContractName.Badges]: {
+      [ContractName.SignatureVerifier]: {
         address: "0xFD75D91321816bd4772831621Af68089631eA459",
       },
       [ContractName.IdentityMerkleAttester]: {
@@ -111,10 +111,10 @@ export const CHAIN_INFO: ChainInfoMap = {
     coingeckoChainName: `polygon-pos`,
     coingeckoNativeTokenId: "matic-network",
     contracts: {
-      [ContractName.AttestationRegistry]: {
+      [ContractName.LensVerifier]: {
         address: "0xC33926eeF7195cC1128f48E8E877694dFe3c2dC4",
       },
-      [ContractName.Badges]: {
+      [ContractName.SignatureVerifier]: {
         address: "0x9C92849c0a882872b21a73693B2e37b463CEc201",
       },
       [ContractName.IdentityMerkleAttester]: {

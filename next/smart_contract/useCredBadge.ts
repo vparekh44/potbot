@@ -1,9 +1,13 @@
 import { BigNumberish, BigNumber } from "ethers";
 import { useState, useCallback } from "react";
-import useAttestationRegistry, {
-  decodeSignatureGroupProperties,
+import { DecodedSignatureAttesterBadgeExtraData } from "../config/score.types";
+import {
   getCorrectChainId,
+  decodeSignatureGroupProperties,
 } from "../utils/attester";
+import useAttestationRegistry from "./useAttestationRegistry";
+
+import useSignatureAttester from "./useSignatureAttester";
 
 export default function useCredBadge(chainId: number = getCorrectChainId()) {
   const { contractRead: attestationRegistry } = useAttestationRegistry(chainId);
@@ -33,13 +37,12 @@ export default function useCredBadge(chainId: number = getCorrectChainId()) {
       const attestationExtraDataBytes =
         await attestationRegistry.getAttestationExtraData(cIdCred, owner);
       if (attestationExtraDataBytes === "0x") return undefined;
-      const [[cId, updatedAt, badgeType, source, badgeData]] =
-        decodeSignatureGroupProperties(attestationExtraDataBytes);
+      const [[cId, updatedAt, badgeData]] = decodeSignatureGroupProperties(
+        attestationExtraDataBytes
+      );
       return {
         cId,
         updatedAt,
-        badgeType,
-        source,
         badgeData,
       };
     },
