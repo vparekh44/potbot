@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { supabase } from "../lib/supabaseClient";
 import classNames from "classnames";
 
-const Discord = () => {
+const Discord = ({ disabled = false }: { disabled?: boolean }) => {
   const user = useUserData();
   const router = useRouter();
   const [cookies] = useCookies(["access_token"]);
@@ -109,22 +109,22 @@ const Discord = () => {
   }, [user]);
 
   return (
-    <div className="fixed right-4 lg:bottom-10 bottom-20">
+    <div>
       {discordIntegerated ? (
         <button
-          className={classNames("btn btn-error", {
-            loading: loading,
-            disabled: loading,
+          className={classNames("btn btn-lg btn-error", {
+            "loading btn-disabled": loading,
+            "disabled btn-disabled": loading || disabled,
           })}
           onClick={handleDiscordDisconnect}
         >
-          Disconnect Discord
+          Link Discord
         </button>
       ) : (
         <button
-          className={classNames("btn btn-primary", {
-            loading: loading,
-            disabled: loading,
+          className={classNames("btn btn-lg btn-primary", {
+            "loading btn-disabled": loading,
+            "disabled btn-disabled": loading || disabled,
           })}
           onClick={startDiscordAuthFlow}
         >

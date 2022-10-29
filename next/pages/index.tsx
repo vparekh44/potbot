@@ -5,6 +5,9 @@ import AddPotBotToServer from "../components/AddPotbotToServer";
 import { useState } from "react";
 import Link from "next/link";
 import { truncateEthAddress } from "../lib/utils";
+import Discord from "../components/Discord";
+import { useUserData } from "../contexts/AuthContext";
+
 interface DiscordServerData {
   id: string;
   name: string;
@@ -32,18 +35,20 @@ export default function Home({
   leaders,
 }: HomePageProps) {
   const [serverData, setServerData] = useState(discordServerData);
+  const user = useUserData();
+console.log(user)
   return (
     <div className="flex flex-col gap-3">
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row">
           <div className="flex flex-col gap-6">
-            <div className="flex gap-3 items-center">
+            <div className="flex gap-3 justify-center sm:justify-between items-center">
               <h1 className="text-2xl sm:text-5xl font-bold">
                 Proof-Of-Talent Bot!
               </h1>
-              <span className="text-5xl sm:text-9xl">🪴</span>
+              <p className="text-5xl sm:text-8xl">🪴</p>
             </div>
-            <p className="py-6 max-w-md">
+            <p className="py-6 max-w-md text-center sm:text-start">
               Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
               excepturi exercitationem quasi. In deleniti eaque aut repudiandae
               et a id nisi.
@@ -70,8 +75,8 @@ export default function Home({
                 <div className="stat-desc">Across all servers</div>
               </div>
             </div>
-            <div className="flex justify-center pt-10">
-              <AddPotBotToServer />
+            <div className="flex justify-center gap-10 pt-10">
+              <AddPotBotToServer />  <Discord disabled={!user?.id}/>
             </div>
           </div>
         </div>
@@ -101,7 +106,7 @@ export default function Home({
       <h2 className="text-4xl text-center pt-10 font-extrabold">Leaderboard</h2>
       <p className="stat-desc text-center">Most endorsed users overall</p>
 
-      <div className="flex flex-col gap-6 py-10 justify-center">
+      <div className="flex flex-col gap-6 py-10 px-8 justify-center">
         {leaders.map((item, index) => {
           //find max count
           const maxCount = Math.max(...leaders.map((item) => item.count));
@@ -131,7 +136,8 @@ export default function Home({
       <p className="stat-desc pb-10 text-center">
         Most endorsed users per server{" "}
       </p>
-      <div className="grid grid-cols-1 pb-20 sm:grid-cols-3">
+      <div className="flex justify-center">
+      <div className="grid grid-cols-1 gap-4 pb-20 sm:grid-cols-3">
         {discordServerData.map((item) => {
           return (
             <div className="card w-96 glass" key={item.id}>
@@ -182,6 +188,7 @@ export default function Home({
             </div>
           );
         })}
+        </div>
       </div>
     </div>
   );

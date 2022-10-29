@@ -27,6 +27,7 @@ type ProfileProps = {
 
 const UserPage = ({ id, walletAddress }: ProfileProps) => {
   const logout = useLogout();
+  const user = useUserData();
 
   return (
     <div className="h-full w-full">
@@ -70,7 +71,11 @@ const UserPage = ({ id, walletAddress }: ProfileProps) => {
           </div>
         </div>
       </>
-      <Discord />
+      {id === user?.id && (
+        <button className="btn btn-error" onClick={() => logout()}>
+          Logout
+        </button>
+      )}
     </div>
   );
 };
