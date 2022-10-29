@@ -11,23 +11,16 @@ export const BottomNavigation = () => {
   return (
     <div className="btm-nav w-full sm:invisible">
       <button
-        onClick={() => router.push("/leaderboard")}
-        className={classNames({ active: router.asPath === "" })}
+        onClick={() => router.push("/")}
+        className={classNames({ active: router.asPath === "/" })}
       >
         📊
       </button>
       <button
-        onClick={() => router.push("/")}
-        className={classNames({ active: router.asPath === "/" })}
-      >
-        🏠
-      </button>
-
-      <button
         onClick={() => {
           user ? router.push(`/user/${user.walletAddress}`) : openLoginModal();
         }}
-        className={classNames({ active: router.asPath === "" })}
+        className={classNames({ active: router.asPath.includes('user') })}
       >
         {user ? "👤" : "🚪"}
       </button>

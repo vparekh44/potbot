@@ -2,27 +2,16 @@ import { useAccount, useConnectModal } from "@web3modal/react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useLogout, useUserData } from "../contexts/AuthContext";
-import Emoji from "./Emoji";
+import { useUserData } from "../contexts/AuthContext";
 
 export const TopNavigation = () => {
   const { theme, setTheme } = useTheme();
   const { open: openLoginModal } = useConnectModal();
-  const logout = useLogout();
-  const { account } = useAccount();
   const router = useRouter();
   const user = useUserData();
-  console.log(user);
+
   const toggleTheme = () => {
     theme !== "dark" ? setTheme("dark") : setTheme("light");
-  };
-
-  const handleConnect = () => {
-    open();
-  };
-
-  const handleDisconnect = () => {
-    logout();
   };
 
   return (
@@ -32,15 +21,9 @@ export const TopNavigation = () => {
           POTBOT
         </Link>
       </div>
-      <div className="flex-none gap-2">
-        <button
-          onClick={() => router.push("/leaderboard")}
-          className={"btn gap-2"}
-        >
-          📊 Leaderboard
-        </button>
+      <div className="flex-none gap-2 hidden sm:flex">
         <button onClick={() => router.push("/")} className={"btn gap-2"}>
-          🏠 Home
+          📊 Leaderboard
         </button>
         <button
           onClick={() => {
@@ -50,15 +33,9 @@ export const TopNavigation = () => {
           }}
           className={"btn gap-2"}
         >
-          {user ? (
-            <>👤 Profile</>
-          ) : (
-            <>
-              🚪 Login
-            </>
-          )}
+          {user ? <>👤 Profile</> : <>🚪 Login</>}
         </button>
-        <button className={"btn gap-2"} onClick={toggleTheme}>
+        <button className={"btn gap-2 text-2xl"} onClick={toggleTheme}>
           {theme !== "dark" ? "🌚" : "🌝"}
         </button>
       </div>
