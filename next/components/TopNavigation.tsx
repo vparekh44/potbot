@@ -1,5 +1,6 @@
 import { useAccount, useConnectModal } from "@web3modal/react";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 import { TbMoon, TbSun } from "react-icons/tb";
 import { useLogout } from "../contexts/AuthContext";
 
@@ -24,7 +25,9 @@ export const TopNavigation = () => {
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
-        <a className="btn btn-ghost normal-case text-xl">POTBOT</a>
+        <Link href="/" className="btn btn-ghost normal-case text-xl">
+          POTBOT
+        </Link>
       </div>
       <div className="flex-none">
         <button
