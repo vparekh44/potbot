@@ -58,7 +58,8 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
     disconnect();
     setUser(null);
     supabase.auth.signOut();
-    toast.info("👋");
+    toast.dismiss();
+
   };
 
   const getUserData = async (userId: string) => {
@@ -123,7 +124,7 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
       });
 
       const { user, token } = await response.json();
-console.log("received", user)
+      console.log("received", user);
       setCookie(ACCESS_TOKEN_COOKIE, token, {
         secure: true,
         path: "/",
@@ -158,15 +159,15 @@ console.log("received", user)
   }, [signatureError]);
 
   useEffect(() => {
-    if (nonce && !user ) {
-      // toast.loading("Please sign the nonce...");
+    if (nonce && !user) {
+      toast.loading("Please sign the nonce...");
       signMessage();
     }
   }, [nonce, user]);
 
   useEffect(() => {
     if (account.isConnected && !user && !isUserLoading) {
-      console.log('fetching nonce')
+      console.log("fetching nonce");
       fetchNonce();
     }
   }, [account.isConnected, user]);
