@@ -3,22 +3,31 @@ import axios from "axios";
 import { GetServerSidePropsResult } from "next";
 import AddPotBotToServer from "../components/AddPotbotToServer";
 import { useState } from "react";
+import Link from "next/link";
+import { truncateEthAddress } from "../lib/utils";
 interface DiscordServerData {
   id: string;
   name: string;
   memberCount: number;
 }
 
+interface LeaderItem {
+  walletAddress: string;
+  count: number;
+}
+
 type HomePageProps = {
   discordServerData: DiscordServerData[];
   totalReactionsCount: number;
   totalUsersCount: number;
+  leaders: LeaderItem[];
 };
 
 export default function Home({
   discordServerData,
   totalReactionsCount,
   totalUsersCount,
+  leaders,
 }: HomePageProps) {
   const [serverData, setServerData] = useState(discordServerData);
 
@@ -28,7 +37,9 @@ export default function Home({
         <div className="hero-content flex-col lg:flex-row">
           <div className="flex flex-col gap-6">
             <div className="flex justify-between gap-6 items-center">
-              <h1 className="text-2xl sm:text-5xl font-bold">Proof-Of-Talent Bot!</h1>
+              <h1 className="text-2xl sm:text-5xl font-bold">
+                Proof-Of-Talent Bot!
+              </h1>
               <span className="text-5xl sm:text-9xl">🪴</span>
             </div>
             <p className="py-6 max-w-md">
@@ -41,7 +52,7 @@ export default function Home({
                 <div className="stat-figure text-4xl text-secondary">🎯</div>
                 <div className="stat-title">Amount of Servers</div>
                 <div className="stat-value">{discordServerData.length}</div>
-                <div className="stat-desc">Where reactions were captures</div>
+                <div className="stat-desc">Where reactions were captured</div>
               </div>
 
               <div className="stat">
@@ -69,7 +80,7 @@ export default function Home({
           <div className="stat-figure text-4xl text-secondary">🎯</div>
           <div className="stat-title">Amount of Servers</div>
           <div className="stat-value">{discordServerData.length}</div>
-          <div className="stat-desc">Where reactions were captures</div>
+          <div className="stat-desc">Where reactions were captured</div>
         </div>
 
         <div className="stat">
@@ -86,8 +97,35 @@ export default function Home({
           <div className="stat-desc">Across all servers</div>
         </div>
       </div>
-      <h2 className="text-4xl py-10 font-extrabold">Servers Stats</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-3">
+      <h2 className="text-4xl text-center pt-10 font-extrabold">Leaderboard</h2>
+      <p className="stat-desc text-center">Total reactions received</p>
+
+      <div className="flex flex-col gap-6 py-10 justify-center">
+        {leaders.map((item, index) => {
+          //find max count
+          const maxCount = Math.max(...leaders.map((item) => item.count));
+          const percentage = (item.count / maxCount) * 100;
+
+          return (
+            <div className="w-full gap-3 flex items-center" key={index}>
+              <Link
+                href={`/user/${item.walletAddress}`}
+                className="underline  w-32 text-accent"
+              >
+                {truncateEthAddress(item.walletAddress)}
+              </Link>
+              <progress
+                className="progress progress-primary h-6 w-full"
+                value={percentage}
+                max="100"
+              ></progress>
+              <div className="text-base">{item.count}</div>
+            </div>
+          );
+        })}
+      </div>
+      <h2 className="text-4xl py-10 text-center font-extrabold">Usage Stats</h2>
+      <div className="grid grid-cols-1 pb-20 sm:grid-cols-3">
         {discordServerData.map((item) => {
           return (
             <div className="card w-96 glass" key={item.id}>
@@ -99,34 +137,7 @@ export default function Home({
           );
         })}
       </div>
-      <h2 className="text-4xl py-10 font-extrabold">Leaderboard</h2>
-      <div className="flex flex-col gap-6 justify-center">
-        <progress
-          className="progress progress-primary h-4 w-full"
-          value="0"
-          max="100"
-        ></progress>
-        <progress
-          className="progress progress-primary h-4 w-full"
-          value="10"
-          max="100"
-        ></progress>
-        <progress
-          className="progress progress-primary h-4 w-full"
-          value="40"
-          max="100"
-        ></progress>
-        <progress
-          className="progress progress-primary h-4 w-full"
-          value="70"
-          max="100"
-        ></progress>
-        <progress
-          className="progress progress-primary h-4 w-full"
-          value="100"
-          max="100"
-        ></progress>
-      </div>
+     
     </div>
   );
 }
@@ -157,6 +168,21 @@ export const getServerSideProps = async (): Promise<
   if (totalUsersCountError) {
     throw new Error(totalUsersCountError.message);
   }
+
+  const { data: totalLeadersBoardData, error: totalLeadersBoardDataError } =
+    await supabaseService
+      .from("leaderboard")
+      .select("wallet_address, count")
+      .order("count", { ascending: false })
+      .limit(5);
+
+  if (totalLeadersBoardDataError) {
+    throw new Error(totalLeadersBoardDataError.message);
+  }
+
+  const leaders = totalLeadersBoardData?.map((item) => {
+    return { walletAddress: item.wallet_address, count: item.count };
+  });
 
   const { data: discordIdData, error: discordIdDataError } =
     await supabaseService.rpc("select_unique_guild_ids");
@@ -192,6 +218,7 @@ export const getServerSideProps = async (): Promise<
         discordServerData: discordServerIdsWithNames,
         totalReactionsCount: totalReactionsCount || 0,
         totalUsersCount: totalUsersCount || 0,
+        leaders: leaders || [],
       },
     };
   } else {
@@ -200,6 +227,7 @@ export const getServerSideProps = async (): Promise<
         discordServerData: [],
         totalReactionsCount: 0,
         totalUsersCount: 0,
+        leaders: [],
       },
     };
   }
