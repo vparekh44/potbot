@@ -16,16 +16,16 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <>
+      <NavBar />
       <div className="px-6 pt-20">{children}</div>
-      <RightSide />
       <Menu />
     </>
   );
 };
 
-const RightSide = () => {
+const NavBar = () => {
   const { theme, setTheme } = useTheme();
-  const { isOpen, open, close } = useConnectModal();
+  const { open } = useConnectModal();
   const logout = useLogout();
   const { account } = useAccount();
 
@@ -42,10 +42,20 @@ const RightSide = () => {
   };
 
   return (
-    <div className="fixed right-3 top-5 flex gap-3">
-      <button onClick={account.isConnected ? handleDisconnect : handleConnect} className="btn-primary">{account.isConnected ? "Disconnect" : "Connect"}</button>
-      <div className="cursor-pointer my-auto" onClick={toggleTheme}>
-        {theme !== "dark" ? <TbMoon size={24} /> : <TbSun size={24} />}
+    <div className="navbar bg-base-100">
+      <div className="flex-1">
+        <a className="btn btn-ghost normal-case text-xl">POTBOT</a>
+      </div>
+      <div className="flex-none">
+        <button
+          onClick={account.isConnected ? handleDisconnect : handleConnect}
+          className="btn btn-ghost normal-case text-xl"
+        >
+          {account.isConnected ? "Disconnect" : "Connect"}
+        </button>
+        <button className="btn btn-ghost normal-case text-xl" onClick={toggleTheme}>
+          {theme !== "dark" ? <TbMoon size={24} /> : <TbSun size={24} />}
+        </button>
       </div>
     </div>
   );
