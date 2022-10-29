@@ -1,13 +1,12 @@
 import { chain } from "wagmi";
 
-// TODO: with Sahil do all the changes.
-
-import AttestationRegistryAbi from "../contract/abi/pot/AttestationRegistry.json";
+import ReputationRegistryAbi from "../contract/abi/pot/ReputationRegistry.json";
 import BadgesAbi from "../contract/abi/pot/Badges.json";
-import IdentityMerkleAttesterAbi from "../contract/abi/pot/IdentityMerkleAttester.json";
-import SkillAttesterAbi from "../contract/abi/pot/SkillAttester.json";
-import SkillBadgeAbi from "../contract/abi/pot/SkillBadge.json";
-import SignatureAttesterAbi from "../contract/abi/pot/SignatureAttester.json";
+import IdentityAbi from "../contract/abi/pot/Identity.json";
+import KarmaTokenManagerAbi from "../contract/abi/pot/KarmaTokenManager.json";
+import KarmaTokenAbi from "../contract/abi/pot/KarmaToken.json";
+import LensVerifierAbi from "../contract/abi/pot/LensVerifier.json";
+import SignatureVerifierAbi from "../contract/abi/pot/SignatureVerifier.json";
 
 export enum ContractName {
   Badges = "Badges",
@@ -44,10 +43,10 @@ export const CHAIN_INFO: ChainInfoMap = {
       `https://eth-rinkeby.alchemyapi.io/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY_RINKEBY}`,
     ],
     alchemyNftApiUrl: `https://eth-rinkeby.alchemyapi.io/nft/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY_RINKEBY}`,
-    txUrl: `https://rinkeby.etherscan.io/tx/`,
-    openseaUrl: `https://testnets.opensea.io/assets/rinkeby/`,
-    raribleUrl: `https://testnet.rarible.com/token/rinkeby/`,
-    nativeTokenSymbol: `ETH`,
+    txUrl: `https://mumbai.etherscan.io/tx/`,
+    openseaUrl: `https://testnets.opensea.io/assets/mumbai/`,
+    raribleUrl: `https://testnet.rarible.com/token/mumbai/`,
+    nativeTokenSymbol: `MATIC`,
     nativeTokenDecimals: 18,
     contracts: {
       [ContractName.Badges]: {
@@ -76,13 +75,13 @@ export const CHAIN_INFO: ChainInfoMap = {
 };
 
 export const ContractAbi: { [contractName in ContractName]: string } = {
-  [ContractName.Badges]: JSON.stringify(AttestationRegistryAbi),
-  [ContractName.identity]: JSON.stringify(""),
+  [ContractName.Badges]: JSON.stringify(BadgesAbi),
+  [ContractName.identity]: JSON.stringify(IdentityAbi),
   [ContractName.reputationRegistry]: JSON.stringify(BadgesAbi),
-  [ContractName.karmaTokenManager]: JSON.stringify(IdentityMerkleAttesterAbi),
-  [ContractName.karmaToken]: JSON.stringify(SkillAttesterAbi),
-  [ContractName.lensVerifier]: JSON.stringify(SkillBadgeAbi),
-  [ContractName.signatureVerifier]: JSON.stringify(SignatureAttesterAbi),
+  [ContractName.karmaTokenManager]: JSON.stringify(KarmaTokenManagerAbi),
+  [ContractName.karmaToken]: JSON.stringify(KarmaTokenAbi),
+  [ContractName.lensVerifier]: JSON.stringify(LensVerifierAbi),
+  [ContractName.signatureVerifier]: JSON.stringify(SignatureVerifierAbi),
 };
 
 export const ExternalContracts = {
