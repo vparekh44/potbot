@@ -1,5 +1,7 @@
 import { chain } from "wagmi";
 
+// TODO: with Sahil do all the changes.
+
 import AttestationRegistryAbi from "../contract/abi/pot/AttestationRegistry.json";
 import BadgesAbi from "../contract/abi/pot/Badges.json";
 import IdentityMerkleAttesterAbi from "../contract/abi/pot/IdentityMerkleAttester.json";
@@ -8,8 +10,8 @@ import SkillBadgeAbi from "../contract/abi/pot/SkillBadge.json";
 import SignatureAttesterAbi from "../contract/abi/pot/SignatureAttester.json";
 
 export enum ContractName {
-  AttestationRegistry = "AttestationRegistry",
-  Badges = "Badges",
+  LensVerifier = "LensVerifier",
+  SignatureVerifier = "SignatureVerifier",
   IdentityMerkleAttester = "IdentityMerkleAttester",
   SkillAttester = "SkillAttester",
   SkillBadge = "SkillBadge",
@@ -150,8 +152,8 @@ export const CHAIN_INFO: ChainInfoMap = {
 };
 
 export const ContractAbi: { [contractName in ContractName]: string } = {
-  [ContractName.AttestationRegistry]: JSON.stringify(AttestationRegistryAbi),
-  [ContractName.Badges]: JSON.stringify(BadgesAbi),
+  [ContractName.LensVerifier]: JSON.stringify(AttestationRegistryAbi),
+  [ContractName.SignatureVerifier]: JSON.stringify(BadgesAbi),
   [ContractName.IdentityMerkleAttester]: JSON.stringify(
     IdentityMerkleAttesterAbi
   ),

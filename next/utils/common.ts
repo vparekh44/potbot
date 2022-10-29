@@ -1,5 +1,5 @@
 import { ethers, utils, Wallet } from "ethers";
-import { RequestStruct } from "../smart_contract/types";
+import { RequestStruct } from "../contract/types";
 
 export const generateEIP712TypedSignData = (
   request: RequestStruct,
