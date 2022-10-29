@@ -173,6 +173,9 @@ const TopAppreciators = ({ user_id }: TopAppreciatorsProps) => {
         )}
         {!loading && (
           <div>
+            {(!topGivers || topGivers.length === 0) && (
+              <div>No one reacted yet.</div>
+            )}
             {topGivers.map((giver, index) => {
               return (
                 <TopGiverCard
@@ -200,16 +203,40 @@ interface TopGiverCardProps {
 
 const TopGiverCard = ({ wallet, name, image, count }: TopGiverCardProps) => {
   const user = useUserData();
-
   return (
     <>
-      {user && user.walletAddress === wallet && (
+      {!wallet && (
+        <>
+          <div className="flex border border-neutral p-3">
+            <div className="avatar max-w-[40px] max-h-[40px]">
+              <Image
+                src={
+                  image
+                    ? image
+                    : "https://i.pinimg.com/564x/af/60/be/af60be8ab2017c8a0c102c5d67e98395--flower-gardening-organic-gardening.jpg"
+                }
+                alt="placeholder"
+                className="rounded-full"
+                height={40}
+                width={40}
+                unoptimized={true}
+              />
+            </div>
+            <div className="flex flex-col justify-center ml-3">
+              <p>Anonymous</p>
+            </div>
+
+            <div className="ml-auto my-auto">{count || ""}</div>
+          </div>
+        </>
+      )}
+      {wallet && user && user.walletAddress === wallet && (
         <div className="flex border-neutral border p-3">
           <p className="text-secondary">Doing some self appreciation! Nice!</p>
           <div className="ml-auto">{count}</div>
         </div>
       )}
-      {user && user.walletAddress !== wallet && (
+      {wallet && user?.walletAddress !== wallet && (
         <Link href={`/user/${wallet}`}>
           <div className="flex border border-neutral p-3">
             <div className="avatar max-w-[40px] max-h-[40px]">
@@ -227,11 +254,7 @@ const TopGiverCard = ({ wallet, name, image, count }: TopGiverCardProps) => {
               />
             </div>
             <div className="flex flex-col justify-center ml-3">
-              {wallet ? (
-                <p className="text-primary">{truncateEthAddress(wallet)}</p>
-              ) : (
-                <p>Anonymous</p>
-              )}
+              <p className="text-primary">{truncateEthAddress(wallet)}</p>
             </div>
 
             <div className="ml-auto my-auto">{count || ""}</div>
