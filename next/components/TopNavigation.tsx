@@ -15,7 +15,7 @@ export const TopNavigation = () => {
   };
 
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar sticky top-0 z-50 bg-base-100">
       <div className="flex-1">
         <Link href="/" className="btn btn-ghost normal-case text-xl">
           PotBot
