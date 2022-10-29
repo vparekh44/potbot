@@ -1,12 +1,13 @@
 create table "users" (
   id uuid primary key not null,
   wallet_address text not null unique,
+  nonce text not null unique,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
 );
 
 create table "profiles" (
     id uuid primary key not null,
-    user_id uuid not null references "user" (id) on delete cascade,
+    user_id uuid not null unique references "user" (id) on delete cascade,
     name text not null,
     bio text,
     image text,

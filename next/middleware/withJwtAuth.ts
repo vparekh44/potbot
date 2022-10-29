@@ -1,5 +1,5 @@
 import next, { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import jwt, { Jwt } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 export default function withJwtAuth(handler: NextApiHandler) {
   return async (req: NextApiRequest, res: NextApiResponse) => {
