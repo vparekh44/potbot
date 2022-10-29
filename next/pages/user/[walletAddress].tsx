@@ -114,7 +114,6 @@ const TopAppreciators = ({ user_id }: TopAppreciatorsProps) => {
     setLoading(true);
     try {
       const { data, error } = await getTopGiversToUser(user_id);
-      debugger;
       if (!error && data) {
         setTopGivers(data);
       }
@@ -138,13 +137,13 @@ const TopAppreciators = ({ user_id }: TopAppreciatorsProps) => {
             })}
           </>
         )}
-        {!loading && (
+        {/* {!loading && (
           <div>
             {topGivers.map((giver, index) => {
               return <div key={index}>{giver}</div>;
             })}
           </div>
-        )}
+        )} */}
       </div>
     </>
   );
