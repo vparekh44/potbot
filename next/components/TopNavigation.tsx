@@ -1,11 +1,9 @@
 import { useAccount, useConnectModal } from "@web3modal/react";
-import classNames from "classnames";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { CgEnter, CgHome, CgPoll, CgProfile } from "react-icons/cg";
-import { TbMoon, TbSun } from "react-icons/tb";
 import { useLogout, useUserData } from "../contexts/AuthContext";
+import Emoji from "./Emoji";
 
 export const TopNavigation = () => {
   const { theme, setTheme } = useTheme();
@@ -14,7 +12,7 @@ export const TopNavigation = () => {
   const { account } = useAccount();
   const router = useRouter();
   const user = useUserData();
-console.log(user)
+  console.log(user);
   const toggleTheme = () => {
     theme !== "dark" ? setTheme("dark") : setTheme("light");
   };
@@ -39,12 +37,10 @@ console.log(user)
           onClick={() => router.push("/leaderboard")}
           className={"btn gap-2"}
         >
-          <CgPoll className="h-6 w-6" />
-          Leaderboard
+          📊 Leaderboard
         </button>
         <button onClick={() => router.push("/")} className={"btn gap-2"}>
-          <CgHome className="h-6 w-6" />
-          Home
+          🏠 Home
         </button>
         <button
           onClick={() => {
@@ -55,22 +51,15 @@ console.log(user)
           className={"btn gap-2"}
         >
           {user ? (
-            <>
-              <CgProfile className="h-6 w-6" />
-              Profile
-            </>
+            <>👤 Profile</>
           ) : (
             <>
-              <CgEnter className="h-6 w-6" />
-              Login
+              🚪 Login
             </>
           )}
         </button>
-        <button
-          className={"btn gap-2"}
-          onClick={toggleTheme}
-        >
-          {theme !== "dark" ? <TbMoon size={24} /> : <TbSun size={24} />}
+        <button className={"btn gap-2"} onClick={toggleTheme}>
+          {theme !== "dark" ? "🌚" : "🌝"}
         </button>
       </div>
     </div>

@@ -3,6 +3,7 @@ import { GiTeapot } from "react-icons/gi";
 import Emoji from "../../components/Emoji";
 import { supabaseService } from "../../lib/supabaseServiceClient";
 import Image from "next/image";
+import { useLogout } from "../../contexts/AuthContext";
 
 type PageParams = {
   walletAddress: string;
@@ -26,6 +27,8 @@ const emojiSummary = [
 ];
 
 const UserPage = ({ id, walletAddress }: ProfileProps) => {
+  const logout = useLogout();
+  
   return (
     <div className="h-full w-full">
     <>
