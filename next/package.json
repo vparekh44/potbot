@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.0.4",
     "@types/jsonwebtoken": "^8.5.9",
     "@web3modal/ethereum": "^2.0.0-beta.1",
     "@web3modal/react": "^2.0.0-beta.1",
@@ -19,13 +20,18 @@
     "next": "13.0.0",
     "next-themes": "^0.2.1",
     "react": "18.2.0",
+    "react-cookie": "^4.1.1",
     "react-dom": "18.2.0",
-    "react-icons": "^4.6.0"
+    "react-icons": "^4.6.0",
+    "react-toastify": "^9.0.8",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.9",
     "@types/node": "18.11.7",
     "@types/react": "18.0.24",
     "@types/react-dom": "18.0.8",
+    "@types/uuid": "^8.3.4",
     "autoprefixer": "^10.4.13",
     "eslint": "8.26.0",
     "eslint-config-next": "13.0.0",
