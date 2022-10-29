@@ -108,30 +108,31 @@ const Discord = () => {
     }
   }, [user]);
 
-
   return (
-    <div className="fixed right-4 bottom-10">
-      {discordIntegerated ? <button
-        className={classNames("btn btn-error", {
-          loading: loading,
-          disabled: loading,
-        })}
-        onClick={handleDiscordDisconnect}
-      >
-        Disconnect Discord
-      </button> : <button
-        className={classNames("btn btn-primary", {
-          loading: loading,
-          disabled: loading,
-        })}
-        onClick={startDiscordAuthFlow}
-      >
-        Connect Discord
-      </button>}
+    <div className="fixed right-4 lg:bottom-10 bottom-20">
+      {discordIntegerated ? (
+        <button
+          className={classNames("btn btn-error", {
+            loading: loading,
+            disabled: loading,
+          })}
+          onClick={handleDiscordDisconnect}
+        >
+          Disconnect Discord
+        </button>
+      ) : (
+        <button
+          className={classNames("btn btn-primary", {
+            loading: loading,
+            disabled: loading,
+          })}
+          onClick={startDiscordAuthFlow}
+        >
+          Connect Discord
+        </button>
+      )}
     </div>
   );
-
-
 };
 
 export default Discord;

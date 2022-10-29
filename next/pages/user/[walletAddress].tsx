@@ -51,7 +51,7 @@ const UserPage = ({ id, walletAddress }: ProfileProps) => {
             </div>
           </div>
         </div>
-        <div className="flex gap-5 lg:flex-row">
+        <div className="flex flex-col gap-5 lg:flex-row mb-20">
           <div className="w-full basis-1/2">
             <div className="text-2xl text-center mb-5 capitalize">
               The Reactionaries
