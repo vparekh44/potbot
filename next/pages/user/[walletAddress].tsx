@@ -6,7 +6,10 @@ import { useLogout } from "../../contexts/AuthContext";
 import { useCallback, useEffect, useState } from "react";
 import SkeletonCard from "../../components/SkeletonCard";
 import classNames from "classnames";
-import { getTopEmojisOnUser } from "../../services/profileService";
+import {
+  getTopEmojisOnUser,
+  getTopGiversToUser,
+} from "../../services/profileService";
 import Discord from "../../components/Discord";
 
 type PageParams = {
@@ -48,14 +51,7 @@ const UserPage = ({ id, walletAddress }: ProfileProps) => {
           <div className="px-4 border-l basis-3/4 flex-justify-center">
             <h6 className="text-center"></h6>
             <div className="mb-5">
-              <h6 className="text-2xl mb-5">Latest attestations</h6>
-              {mockAttestations.map((attestation, index) => {
-                return (
-                  <div className="flex mx-3" key={index}>
-                    <div>{attestation.date} </div>
-                  </div>
-                );
-              })}
+              <TopAppreciators user_id={id}></TopAppreciators>
             </div>
 
             <div className="text-2xl">Reactions:</div>
@@ -77,11 +73,11 @@ interface TopEmojisReceivedProps {
 const TopEmojisReceived = ({ user_id }: TopEmojisReceivedProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [topEmojis, setTopEmojis] = useState<any>([]);
+
   const getTopEmojisReceivedUser = useCallback(async () => {
     setLoading(true);
     try {
       const { data, error } = await getTopEmojisOnUser(user_id);
-      debugger;
       if (!error && data) {
         setTopEmojis(data);
       }
@@ -94,24 +90,60 @@ const TopEmojisReceived = ({ user_id }: TopEmojisReceivedProps) => {
   useEffect(() => {
     getTopEmojisReceivedUser();
   }, [getTopEmojisReceivedUser]);
+
+  // in case i need - String.fromCodePoint(0x1f609) - do not remove this.
   return (
     <>
       <div className="flex flex-row w-1/3">
-        <Podium
-          place="2"
-          emoji={String.fromCodePoint(0x1f609)}
-          loading={loading}
-        />
-        <Podium
-          place="1"
-          emoji={String.fromCodePoint(0x1f609)}
-          loading={loading}
-        />
-        <Podium
-          place="3"
-          emoji={String.fromCodePoint(0x1f609)}
-          loading={loading}
-        />
+        <Podium place="2" emoji={topEmojis[1]} loading={loading} />
+        <Podium place="1" emoji={topEmojis[0]} loading={loading} />
+        <Podium place="3" emoji={topEmojis[2]} loading={loading} />
+      </div>
+    </>
+  );
+};
+
+interface TopAppreciatorsProps {
+  user_id: string;
+}
+const TopAppreciators = ({ user_id }: TopAppreciatorsProps) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [topGivers, setTopGivers] = useState<any>([]);
+
+  const getTopGivers = useCallback(async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await getTopGiversToUser(user_id);
+      if (!error && data) {
+        setTopGivers(data);
+      }
+    } catch {
+    } finally {
+      //setLoading(false);
+    }
+  }, [user_id]);
+
+  useEffect(() => {
+    getTopGivers();
+  }, [getTopGivers]);
+
+  return (
+    <>
+      <div className="flex flex-col gap-5">
+        {loading && (
+          <>
+            {new Array(3).map((option, index) => {
+              return <SkeletonCard key={index} />;
+            })}
+          </>
+        )}
+        {!loading && (
+          <div>
+            {topGivers.map((giver, index) => {
+              return <div key={index}>{giver}</div>;
+            })}
+          </div>
+        )}
       </div>
     </>
   );
