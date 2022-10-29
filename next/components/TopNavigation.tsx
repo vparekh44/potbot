@@ -23,7 +23,7 @@ export const TopNavigation = () => {
       </div>
       <div className="flex-none gap-2 hidden sm:flex">
         <button onClick={() => router.push("/")} className={"btn gap-2"}>
-          📊 Leaderboard
+          📊 Home
         </button>
         <button
           onClick={() => {
