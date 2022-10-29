@@ -3,6 +3,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { chain } from "wagmi";
 import { CHAIN_INFO } from "../../../config/chain";
 import withJwtAuth from "../../../middleware/withJwtAuth";
+import jwt from "jsonwebtoken";
+import { SignatureGroupProperties } from "../../../config/score.types";
+import { generateProofData } from "../../../utils/common";
 
 let walletSecretKey;
 let signatureAttesterContract;
@@ -33,22 +36,8 @@ async function attest(req: NextApiRequest, res: NextApiResponse) {
 
       const payload = jwt.decode(accessToken) as jwt.JwtPayload;
 
-      const userId = payload?.user_metadata?.id;
-
       const owner = payload?.user_metadata?.address;
       if (!owner) return res.status(403).json({ error: "Address not present" });
-
-      // THIS IS FROM KLEOVERSE. THE 24H THING. NOT SURE IF WE ARE GOING TO DO THAT NOW.
-      // const {
-      //   data: { attestationResult },
-      // } = await axios.get(
-      //   `${process.env.NEXT_PUBLIC_APP_URI}/api/badge/data/course/${badgeSlug}`,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${accessToken}`,
-      //     },
-      //   }
-      // );
 
       const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
       const signer = new ethers.Wallet(walletSecretKey, provider);
