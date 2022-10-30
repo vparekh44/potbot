@@ -317,7 +317,7 @@ const GiverContent = ({ wallet, count }: { wallet: string; count: number }) => {
           <p className="text-secondary">Doing some self appreciation! Nice!</p>
         ) : (
           <p className="text-primary">
-            {(wallet && truncateEthAddress(wallet)) || ""}
+            {(wallet && truncateEthAddress(wallet)) || "Anonymous"}
           </p>
         )}
       </div>
