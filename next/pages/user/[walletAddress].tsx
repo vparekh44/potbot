@@ -15,6 +15,7 @@ import {
 import Link from "next/link";
 import { truncateEthAddress } from "../../lib/utils";
 import { getRandomNFTFromAWallet } from "../../services/alchemyService";
+import { getUserReactionsReceived } from "../../services/scoreService";
 
 type PageParams = {
   walletAddress: string;
@@ -31,7 +32,10 @@ const UserPage = ({ id, walletAddress }: ProfileProps) => {
   const logout = useLogout();
   const user = useUserData();
 
-  const getUserReputation = useCallback(async () => {}, []);
+  const getUserReputation = useCallback(async () => {
+    const score = await getUserReactionsReceived(id);
+    setUserScore(score);
+  }, [id]);
 
   const mintUserReputation = async () => {};
 
