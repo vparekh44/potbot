@@ -14,8 +14,8 @@ The bot is forked from [https://github.com/KevinNovak/Discord-Bot-TypeScript-Tem
 
 Next.js provides a frontend and a set of API endpoints for wallet-based authentication and discord account linking. Once the user has linked his/her wallet and discord, the frontend allows token minting corresponding to the user's reputation.
 
-Frontend uses https://github.com/WalletConnect/web3modal and IPFS uploading user ratings. 
+Frontend uses https://github.com/WalletConnect/web3modal and IPFS for storing user ratings. 
 
-### 3. Oracle
+### 3. Smart contracts
 
 **FILL OUT THIS FIELD!**
