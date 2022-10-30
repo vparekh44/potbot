@@ -1,10 +1,27 @@
+import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import Emoji from "../components/Emoji";
 import { Reaction } from "../model.types";
 import { getEmojisFromDb } from "../services/emojisService";
 
 const Emojis = () => {
   const [emojisInfo, setEmojisInfo] = useState<Reaction[]>([]);
+  const [cookies] = useCookies(["access_token"]);
+
+  const testSavingSomethingONIPFS = async () => {
+    try {
+      const { data } = await axios.get("/api/ipfs/save", {
+        headers: {
+          Authorization: `Bearer ${cookies.access_token}`,
+        },
+      });
+      debugger;
+    } catch (error) {
+      debugger;
+      console.log(error);
+    }
+  };
 
   const getEmojis = useCallback(async () => {
     const { data, error } = await getEmojisFromDb();
@@ -18,12 +35,19 @@ const Emojis = () => {
   }, [getEmojis]);
 
   return (
-    <div className="flex flex-wrap mx-10 gap-2 mt-5">
-      {emojisInfo.map((emoji) => {
-        console.log(emoji);
-        return <EmojiContent key={emoji.id} {...emoji} />;
-      })}
-    </div>
+    <>
+      <button
+        className="p-2 bg-primary rounded-full"
+        onClick={() => testSavingSomethingONIPFS()}
+      >
+        TEST IPFS
+      </button>
+      <div className="flex flex-wrap mx-10 gap-2 mt-5">
+        {emojisInfo.map((emoji) => {
+          return <EmojiContent key={emoji.id} {...emoji} />;
+        })}
+      </div>
+    </>
   );
 };
 
