@@ -5,7 +5,6 @@ import { useState } from "react";
 import ReactStars from "react-rating-stars-component";
 import { toast } from "react-toastify";
 import { useUserData } from "../contexts/AuthContext";
-import { uploadToIPFS } from "../lib/ipfsUtils";
 
 const RateUs = () => {
   const [rating, setRating] = useState(0);
@@ -29,6 +28,7 @@ const RateUs = () => {
       });
       setHash(data.message);
       toast.success("Thanks for rating us!");
+      setRating(0);
       setLoading(false);
       console.log("hash: ", data);
     } catch (err) {
@@ -42,7 +42,7 @@ const RateUs = () => {
       <input type="checkbox" id="my-modal-4" className="modal-toggle" />
       <label htmlFor="my-modal-4" className="modal cursor-pointer">
         <label className="modal-box relative" for="">
-          <h3 className="text-lg font-bold">Rate us!</h3>
+          <h3 className="text-lg font-bold">Rate us</h3>
           <p className="py-4">
             If you liked the idea, please give us some stars! It would be good
             to know that we store your valuable ratings decentrally on IPFS!
@@ -53,13 +53,14 @@ const RateUs = () => {
               onChange={ratingChanged}
               size={24}
               activeColor="#ffd700"
+              value={rating}
             />
             <button className={classNames("btn btn-info btn-block", {
               "loading btn-disabled": loading,
             })} onClick={handleSubmit}>
               Submit Rating
             </button>
-            {hash && <div>
+            {hash && <div className="underline">
               <Link href={`https://ipfs.io/ipfs/${hash}`} target="_blank" rel="noopener noreferrer">
                 You can check your feedback on IPFS here
               </Link>
@@ -68,7 +69,7 @@ const RateUs = () => {
         </label>
       </label>
       <label htmlFor="my-modal-4" className="btn btn-primary">
-        Rate us
+        Rate us ⭐️
       </label>
     </div>
   );
