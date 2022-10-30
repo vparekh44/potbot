@@ -7,6 +7,7 @@ import Link from "next/link";
 import { truncateEthAddress } from "../lib/utils";
 import Discord from "../components/Discord";
 import { useUserData } from "../contexts/AuthContext";
+import RateUs from "../components/RateUs";
 
 interface DiscordServerData {
   id: string;
@@ -39,6 +40,7 @@ export default function Home({
   console.log(user);
   return (
     <div className="flex flex-col gap-3">
+      <RateUs />
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row">
           <div className="flex flex-col gap-6">

@@ -1,23 +1,20 @@
 import { create } from "ipfs-http-client";
 import { NextApiRequest, NextApiResponse } from "next";
-import withJwtAuth from "../../../middleware/withJwtAuth";
+import { uploadToIPFS } from "../../../lib/ipfsUtils";
 
 async function save(req: NextApiRequest, res: NextApiResponse) {
   return new Promise<void>(async () => {
     try {
       const { body, headers } = req;
-
-      // connect to the default API address http://localhost:5001
-      const client = create();
-
-      // call Core API methods
-      const { cid } = await client.add("Hello world!");
-      debugger;
-      res.status(200).json({ message: cid });
+      if (!body) {
+        res.status(500);
+      }
+      const hash = await uploadToIPFS(JSON.stringify(body));
+      res.status(200).json({ message: hash });
     } catch (error) {
       res.status(500);
     }
   });
 }
 
-export default withJwtAuth(save);
+export default save;
