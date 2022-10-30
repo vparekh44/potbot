@@ -93,9 +93,11 @@ const UserPage = ({ id, walletAddress }: ProfileProps) => {
               </div>
             </div> */}
             <div className="flex flex-col justify-center mx-auto mt-3">
-              <p className="flex justify-center text-white text-lg">
-                {truncateEthAddress(walletAddress)}
-              </p>
+              {walletAddress && (
+                <p className="flex justify-center text-white text-lg">
+                  {truncateEthAddress(walletAddress)}
+                </p>
+              )}
               <h5 className="flex justify-center my-auto font-black text-base">
                 Current Reputation:
               </h5>
@@ -314,7 +316,9 @@ const GiverContent = ({ wallet, count }: { wallet: string; count: number }) => {
         {user && user.walletAddress === wallet ? (
           <p className="text-secondary">Doing some self appreciation! Nice!</p>
         ) : (
-          <p className="text-primary">{truncateEthAddress(wallet)}</p>
+          <p className="text-primary">
+            {(wallet && truncateEthAddress(wallet)) || "Anonymous"}
+          </p>
         )}
       </div>
 
