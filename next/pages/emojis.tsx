@@ -16,9 +16,7 @@ const Emojis = () => {
           Authorization: `Bearer ${cookies.access_token}`,
         },
       });
-      debugger;
     } catch (error) {
-      debugger;
       console.log(error);
     }
   };

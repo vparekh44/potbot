@@ -5,7 +5,6 @@ import withJwtAuth from "../../../middleware/withJwtAuth";
 async function save(req: NextApiRequest, res: NextApiResponse) {
   return new Promise<void>(async () => {
     try {
-      debugger;
       const { body, headers } = req;
 
       // connect to the default API address http://localhost:5001
