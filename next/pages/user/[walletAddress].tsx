@@ -311,7 +311,7 @@ const GiverContent = ({ wallet, count }: { wallet: string; count: number }) => {
         )}
       </div>
       <div className="flex flex-col justify-center ml-3">
-        {user?.walletAddress === wallet ? (
+        {user && user.walletAddress === wallet ? (
           <p className="text-secondary">Doing some self appreciation! Nice!</p>
         ) : (
           <p className="text-primary">{truncateEthAddress(wallet)}</p>
