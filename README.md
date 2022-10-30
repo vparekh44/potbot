@@ -18,4 +18,4 @@ Frontend uses https://github.com/WalletConnect/web3modal and IPFS for storing us
 
 ### 3. Smart contracts
 
-The reputation protocol stores reputation for an entity for different vectors. (e.g professional reputation, interpersonal reputation). The protocl can use different data sources to calculate the reputation score (e.g. Discord, Twitter, Github, etc). The protocol also allows for minting tokens corresponding to the reputation score.
+The reputation protocol stores reputation for an entity for different vectors. (e.g professional reputation, interpersonal reputation). The protocl can use different data sources to calculate the reputation score (e.g. Discord, Twitter, Github, etc). The protocol also allows for minting tokens corresponding to the reputation score. You can mint the reputation score for other entity and gain karma tokens. You can use karma tokens to mint own reputation score.
