@@ -108,7 +108,7 @@ const UserPage = ({ id, walletAddress }: ProfileProps) => {
                   className="p-2 bg-secondary w-44 rounded-full text-white"
                   onClick={() => mintUserReputation()}
                 >
-                  Mint Your Current Reputation
+                  Mint Reputation
                 </button>
               </div>
             </div>

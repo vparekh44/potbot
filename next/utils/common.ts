@@ -1,42 +1,40 @@
 import { ethers, utils, Wallet } from "ethers";
 import { RequestStruct } from "../contract/types";
 
+
 export const generateEIP712TypedSignData = (
-  request: RequestStruct,
+  request: any,
   verifyingContract: string,
   deadline: string | number,
-  domainName: string,
-  chainId: number
+  domainName: string
 ) => {
   return {
-    primaryType: "AttestationRequest",
+    primaryType: 'ReputationRequest',
     domain: {
       name: domainName,
-      version: "1",
-      chainId,
+      version: '1',
+      chainId: 80001,
       verifyingContract,
     },
     types: {
-      AttestationRequest: [
-        { name: "groupId", type: "uint256" },
-        { name: "claimedValue", type: "uint256" },
-        { name: "extraData", type: "bytes" },
-        { name: "destination", type: "address" },
-        { name: "deadline", type: "uint256" },
+      ReputationRequest: [
+        { name: 'repId', type: 'uint256' },
+        { name: 'claimedValue', type: 'uint256' },
+        { name: 'destination', type: 'address' },
+        { name: 'deadline', type: 'uint256' },
       ],
     },
     message: {
-      groupId: request.claims[0].groupId,
+      repId: request.claims[0].repId,
       claimedValue: request.claims[0].claimedValue,
-      extraData: request.claims[0].extraData,
       destination: request.destination,
-      deadline,
+      deadline
     },
   };
 };
 
 export const generateProofData = async (
-  request: RequestStruct,
+  request:any,
   signer: Wallet,
   verifyingContract: string,
   chainId: number,
@@ -50,7 +48,6 @@ export const generateProofData = async (
     verifyingContract,
     deadline,
     domainName,
-    chainId
   );
   const sig = await signer._signTypedData(
     signData.domain,
