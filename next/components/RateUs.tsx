@@ -24,7 +24,7 @@ const RateUs = () => {
           user: user ? user.walletAddress : "0x00Anon",
           rating,
         },
-        source: "potbot 🪴"
+        source: "potbot 🪴",
       });
       setHash(data.message);
       toast.success("Thanks for rating us!");
@@ -41,7 +41,7 @@ const RateUs = () => {
     <div className="fixed bottom-10 right-8 z-50 overscroll-auto    ">
       <input type="checkbox" id="my-modal-4" className="modal-toggle" />
       <label htmlFor="my-modal-4" className="modal cursor-pointer">
-        <label className="modal-box relative" for="">
+        <label className="modal-box relative">
           <h3 className="text-lg font-bold">Rate us</h3>
           <p className="py-4">
             If you liked the idea, please give us some stars! It would be good
@@ -55,16 +55,25 @@ const RateUs = () => {
               activeColor="#ffd700"
               value={rating}
             />
-            <button className={classNames("btn btn-info btn-block", {
-              "loading btn-disabled": loading,
-            })} onClick={handleSubmit}>
+            <button
+              className={classNames("btn btn-info btn-block", {
+                "loading btn-disabled": loading,
+              })}
+              onClick={handleSubmit}
+            >
               Submit Rating
             </button>
-            {hash && <div className="underline">
-              <Link href={`https://ipfs.io/ipfs/${hash}`} target="_blank" rel="noopener noreferrer">
-                You can check your feedback on IPFS here
-              </Link>
-            </div>}
+            {hash && (
+              <div className="underline">
+                <Link
+                  href={`https://ipfs.io/ipfs/${hash}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  You can check your feedback on IPFS here
+                </Link>
+              </div>
+            )}
           </div>
         </label>
       </label>

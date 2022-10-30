@@ -10,16 +10,19 @@ export default function useSignatureAttester(
   const provider = useProvider({ chainId });
   const { data: signer } = useSigner();
   const address =
+  //@ts-ignore
     CHAIN_INFO[chainId].contracts[ContractName.SignatureAttester]?.address;
 
   const contractWrite = useContract({
     address: address || ethers.constants.AddressZero,
+      //@ts-ignore
     abi: getContractAbi(ContractName.SignatureAttester),
     signerOrProvider: signer,
   });
 
   const contractRead = useContract({
     address: address || ethers.constants.AddressZero,
+      //@ts-ignore
     abi: getContractAbi(ContractName.SignatureAttester),
     signerOrProvider: provider,
   });
