@@ -13,7 +13,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.0.4",
     "@types/jsonwebtoken": "^8.5.9",
-    "@web3modal/ethereum": "^2.0.0-beta.1",
+    "@web3modal/ethereum": "^2.7.1",
     "@web3modal/react": "^2.0.0-beta.1",
     "alchemy-sdk": "^2.2.0",
     "axios": "^1.1.3",
